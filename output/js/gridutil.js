@@ -310,11 +310,12 @@ function drawBreakdownBlocks (obj, index, substeps, stepLabelsBreakdown) {
 }
 
 function hoverBlock(dataObj, name, obj, overVal) { 
-
+    console.log('hover');
     var element = d3.select(obj).attr("class");
     var elemArray = element.split(" ");
     elemArray.splice(0, 3);
 
+    // Fill in metrics for individual password/tier 3 view
     $('.original-password-holder h4').html(escapeHTMLchars(dataObj['originalPassword']));
     $('.permuted-password-holder h4').html(escapeHTMLchars(dataObj['permutedPassword']));
     for(var i = 0; i < columnList.length; i++){
@@ -330,17 +331,22 @@ function hoverBlock(dataObj, name, obj, overVal) {
       var textCol = "#E82C0C";
 
        d3.selectAll(".tinyscore")
-          .style("opacity", 0.2);
+          .style("opacity", 0.1);
 
       // dim scrollpiece
       svgSidebar.selectAll(".scrollpiece")
         .style("fill-opacity", 0);
+
+      d3.selectAll(".blockLabel")
+        .style("opacity", 0.1);
+
     } else {
       var colorScale = setColors(currentColorScale, name);
       var colorScaleName = currentColorScale;
       var textCol = "#aaa";
 
       d3.selectAll(".tinyscore").style("opacity", 1);
+      d3.selectAll(".blockLabel").style("opacity", 1);
 
       // dim scrollpiece
       svgSidebar.selectAll(".scrollpiece")
@@ -446,9 +452,8 @@ function hoverBlock(dataObj, name, obj, overVal) {
       className = "."+elemArray[1]+"block";
       console.log(className);
       console.log(name);
-      d3.selectAll(className).transition()        
-            .duration(100)      
-            .style("fill", function(d, i){return colorScale(d[name]);});
+      d3.selectAll(className)     
+            .style({"fill": function(d, i){return colorScale(d[name]);}, "opacity": function(d, i){if(overVal =="over"){return 1;} else{return 0;} }});
 
       className = "."+elemArray[1]+"tinyblock";
       d3.selectAll(className)
@@ -456,9 +461,8 @@ function hoverBlock(dataObj, name, obj, overVal) {
 
       // Color rows
       className = "."+elemArray[0];
-      d3.selectAll(className).transition()        
-          .duration(100)      
-          .style("fill", function(d, i){var newcolorScale = setColors(colorScaleName, columnList[i]);return newcolorScale(d[columnList[i]]);});
+      d3.selectAll(className)      
+          .style({"fill": function(d, i){var newcolorScale = setColors(colorScaleName, columnList[i]);return newcolorScale(d[columnList[i]]);}, "opacity":1});
 
       className = "."+elemArray[0]+"tinyblock";
       // console.log(className);

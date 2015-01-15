@@ -1,5 +1,5 @@
 // Change filenames here to change data for visualization
-d3.csv("passwords-humangenerated-complex.csv",
+d3.csv("catCode-results-10thousand-2015-01-15.csv",
         function(d) {
           return {
             originalPassword: d.originalPassword,
@@ -51,7 +51,7 @@ d3.csv("passwords-humangenerated-complex.csv",
   });
 
 function loadChangeData() {
-      d3.csv("passwords-humangenerated-complex-change.csv",
+      d3.csv("catCode-results-10thousand-2015-01-15-change.csv",
               function(d) {
                 return {
                   originalPassword: d.originalPassword,

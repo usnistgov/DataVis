@@ -60,7 +60,7 @@ print("Processing...\n\n")
 
 ################ Change input file here #######################
 # Open file with passwords stored
-i = open('input/passwords-500.txt', 'r')
+i = open('input/catCode-results-10thousand-2015-01-15.txt', 'r')
 
 # Parse input
 # Stores current LPD scores for each step of the algorithm (only for the current password)
