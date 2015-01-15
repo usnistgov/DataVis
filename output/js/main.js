@@ -51,7 +51,7 @@ d3.csv("catCode-results-1thousand-2015-01-15.csv",
   });
 
 function loadChangeData() {
-      d3.csv("catCode-results-10thousand-2015-01-15-change.csv",
+      d3.csv("catCode-results-1thousand-2015-01-15-change.csv",
               function(d) {
                 return {
                   originalPassword: d.originalPassword,
