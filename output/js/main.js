@@ -1,5 +1,5 @@
 // Change filenames here to change data for visualization
-d3.csv("catCode-results-1thousand-2015-01-15.csv",
+d3.csv("passwords-500.csv",
         function(d) {
           return {
             originalPassword: d.originalPassword,

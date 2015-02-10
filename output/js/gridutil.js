@@ -343,7 +343,7 @@ function hoverBlock(dataObj, name, obj, overVal) {
     } else {
       var colorScale = setColors(currentColorScale, name);
       var colorScaleName = currentColorScale;
-      var textCol = "#aaa";
+      var textCol = "#000";
 
       d3.selectAll(".tinyscore").style("opacity", 1);
       d3.selectAll(".blockLabel").style("opacity", 1);
