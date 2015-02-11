@@ -1,4 +1,9 @@
-# The Authentication Equation, a tool for visualizing the convergence of usability and security in text-based passwords
+# The Authentication Equation
+A tool for visualizing the convergence of usability and security in text-based passwords
+
+## About this code
+This code comprises of a data visualization tool to explore password usability and security metrics. The visualization tool integrates various measurements of passwords, enabling exploration of the intersection of their usability and security components. The tool is based on insight from previously gathered data from usability studies conducted at the United States National Institute of Standards and Technology. It also leverages web technologies to flexibly display data sets computed from sets of passwords.
+
 
 ## How visualize a set of passwords
 
@@ -46,7 +51,7 @@ i = open('input/example.txt', 'r')
 
 ### C. Visualize your dataset
 
-1. Open `output/js/init.js` and type in the name of the `.csv` file just generated (or any .csv generated into the `output` folder you would like to visualize). 
+1. Open `output/js/init.js` and type in the name of the `.csv` file just generated (or any .csv file generated into the `output` folder you would like to visualize). 
 2. If you are able to host this code on a server, you can open `password-visualization.html` to run the visualization. However, you can also run the code without such an environment following these instructions: 
   1. Close Chrome if it is open (make sure all background operations of chrome have ceased.
   2. Open Chrome from the Command Line/Terminal:
