@@ -9,7 +9,6 @@ This code comprises of a data visualization tool to explore password usability a
 
 ### A. What you'll need:
 1. A .txt file list of the passwords to be visualized. An example (newline separated):
-
 ```
 {x!_ZZX0
 n5Yw;_o@
@@ -26,9 +25,7 @@ n]P27{D(
 |Vf99LVn
 ```
 2. Python 3. Note that the code will not run properly earlier versions (Python 2, etc.)
-
 3. Chrome browser (updated).
- 
 4. Code/text editor (Sublime 2 works well and is free).
 
 
@@ -52,7 +49,7 @@ i = open('input/example.txt', 'r')
 ### C. Visualize your dataset
 
 1. Open `output/js/init.js` and type in the name of the `.csv` file just generated (or any .csv file generated into the `output` folder you would like to visualize). 
-2. If you are able to host this code on a server, you can open `password-visualization.html` to run the visualization. However, you can also run the code without such an environment following these instructions: 
+2. If you are able to host this code on a server, you can open `output\password-visualization.html` to run the visualization. However, you can also run the code without such an environment by following these instructions: 
   1. Close Chrome if it is open (make sure all background operations of chrome have ceased.
   2. Open Chrome from the Command Line/Terminal:
     
@@ -63,7 +60,9 @@ i = open('input/example.txt', 'r')
     PC
     ```
     ## CD to where chrome.exe is located before you run this command.
-    ## probably similar to C:\Program Files (x86)\Google\Chrome\Application\
+    ## probably similar to 'C:\Program Files (x86)\Google\Chrome\Application\'
     
     >> chrome.exe --allow-file-access-from-files
     ```
+  3. Open `output\password-visualization.html` 
+
