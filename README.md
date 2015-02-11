@@ -8,7 +8,7 @@ This code comprises of a data visualization tool to explore password usability a
 ## How visualize a set of passwords
 
 ### A. What you'll need:
-1. A .txt file list of the passwords to be visualized. An example (newline separated):
+- A .txt file list of the passwords to be visualized. An example (newline separated):
 ```
 {x!_ZZX0
 n5Yw;_o@
@@ -24,9 +24,9 @@ uZ-$q8@)
 n]P27{D(
 |Vf99LVn
 ```
-2. Python 3. Note that the code will not run properly earlier versions (Python 2, etc.)
-3. Chrome browser (updated).
-4. Code/text editor (Sublime 2 works well and is free).
+- Python 3. Note that the code will not run properly earlier versions (Python 2, etc.)
+- Chrome browser (updated).
+- Code/text editor (Sublime 2 works well and is free).
 
 
 ### B. Create your dataset
@@ -65,4 +65,3 @@ i = open('input/example.txt', 'r')
     >> chrome.exe --allow-file-access-from-files
     ```
   3. Open `output\password-visualization.html` 
-
