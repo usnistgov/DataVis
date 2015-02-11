@@ -1,7 +1,9 @@
 import re
 
 # Calculate number of keystrokes needed for a password entered in the mobile Apple brand platform
+
 # Each "screen" method simulates a real screen on the device.
+# In this model, each keypress does not trigger an automatic transition back to screen 1. 
 
 # Ipad keystroke count based on the screens of the latest 2014 model
 # Android keystroke count based on the landscape screens of the Galaxy 3s, the most pervasive model (7.2% of Android users) in the Android marketplace as of July 2014
@@ -79,12 +81,25 @@ def upLower (character):
 	if match:
 		return 1
 
+def upLowerSymDesktop (character):
+	# Character is a lower, or other character that doesn't require a shift press
+	regex = "[a-z]|[0-9]|`|\[|\]|;|'|,|\.|\/|\-|\="
+	match = re.findall(regex, character)
+	if match:
+		return 0
+
+	# Character is an upper or other character requiring a shift press
+	regex = "[A-Z]"
+	match = re.findall(regex, character)
+	if match:
+		return 1
+
 def upLowerSymipad(character):
 	notSym = upLower(character);
 
 	if notSym == -1:
 		# Character is a symbol in ipad group 1
-		regex = "[0-9]|-|/|:|;|\\)|\\(|&|\\$|@|\\.|,|\\?|!|\"|'|"
+		regex = "[0-9]|-|\/|:|;|\)|\(|&|\$|@|\.|,|\?|!|\"|\'"
 		match = re.findall(regex, character)
 		if match:
 			return 2
@@ -100,7 +115,7 @@ def upLowerSymandroid(character):
 
 	if notSym == -1:
 		# Character is a symbol in android group 1
-		regex = "[0-9]|\\^|*|-|/|:|;|\\)|\\(|&|\\$|@|\\.|,|\\?|!|\"|'|"
+		regex = "[0-9]|\^|\*|-|\/|:|;|\)|\(|&|\$|@|\.|,|\?|!|\"|\'"
 		match = re.findall(regex, character)
 		if match:
 			return 2
@@ -127,7 +142,7 @@ def upLowerSymandroid(character):
 symbolType = {
 	'ipad': upLowerSymipad,
 	'android': upLowerSymandroid,
-	'desktop': upLower,
+	'desktop': upLowerSymDesktop,
 }
 
 # Main method to invoke for ipod
