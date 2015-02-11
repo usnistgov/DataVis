@@ -1,5 +1,5 @@
 // Change filenames here to change data for visualization
-d3.csv("passwords-500.csv",
+d3.csv(vizFilename,
         function(d) {
           return {
             originalPassword: d.originalPassword,
