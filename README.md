@@ -1,5 +1,5 @@
 # The Authentication Equation
-A tool for visualizing the convergence of usability and security in text-based passwords
+_A tool for visualizing the convergence of usability and security in text-based passwords_
 
 ## About this code
 This code comprises of a data visualization tool to explore password usability and security metrics. The visualization tool integrates various measurements of passwords, enabling exploration of the intersection of their usability and security components. The tool is based on insight from previously gathered data from usability studies conducted at the United States National Institute of Standards and Technology. It also leverages web technologies to flexibly display data sets computed from sets of passwords.
@@ -64,10 +64,10 @@ Enter the name of the output file:
     $ open /Applications/Google\ Chrome.app --args -allow-file-access-from-files
     ```
     PC
-    ```
-    ## CD to where chrome.exe is located before you run this command.
-    ## probably similar to 'C:\Program Files (x86)\Google\Chrome\Application\'
+
+      - cd to where chrome.exe is located before you run this command. The file path is probably similar to `C:\Program Files (x86)\Google\Chrome\Application\`
     
+    ```
     >> chrome.exe --allow-file-access-from-files
     ```
   3. Open `output/password-visualization.html` 
