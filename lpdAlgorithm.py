@@ -11,40 +11,66 @@ def calculateLPDlist (current_LPD_list, current_password, label):
 	# Holds current phrase (subsection of the password)
 	current_phrase = None
 
+
+	current_password = current_password.strip()
 	label = str(label)
 
 ##### Step 1 - Parse by symbol
-	# Check the character at index 0 of ‘current_password’
+	# Check the character at index 0 of current_password
 	# If the character is a symbol,
 	# 	Add 1 point to the LPD	
 	if symbolStart(current_password):
 		current_LPD += 1
+		symbolStartFlag = 1
 		print('Symbol start: Add 1')
-		current_LPD_list[label+'symbolStart'] = 1	
-		current_password = current_password[1:]
+		current_LPD_list[label+'symbolStart'] = 1
 	else:
+		symbolStartFlag = 0
 		current_LPD_list[label+'symbolStart'] = 0
 
 ##### Parse into phrases
-	# For each character in ‘current_password', 
-	for c in current_password:
-		# If the char is a symbol,
-		if isSymbol(c): 
-			# Add symbol to the end of the current phrase
-			if not current_phrase:
-				current_phrase = ''
-			current_phrase += c
-			
-			# Add current phrase to phrase list if not empty
-			phrases.append(current_phrase)
-			
-			# Increment ‘current_phrase’
-			current_phrase = None
-		else: 
-			 # Concatenate the character at the end of current phrase
-			if not current_phrase:
-				current_phrase = '' 
-			current_phrase += c
+	if symbolStartFlag == 1:
+		# For each character in current_password, 
+		for c in current_password:
+			# If the char is a symbol,
+			if isSymbol(c): 
+				# Add current phrase to phrase list if not empty
+				if current_phrase:
+					
+					phrases.append(current_phrase)
+				
+				# Increment current_phrase
+				current_phrase = None
+
+				# Add symbol to the start of the current phrase
+				if not current_phrase:
+					current_phrase = ''
+				current_phrase += c
+			else: 
+				 # Concatenate the character at the end of current phrase
+				if not current_phrase:
+					current_phrase = '' 
+				current_phrase += c
+	else:
+		# For each character in current_password, 
+		for c in current_password:
+			# If the char is a symbol,
+			if isSymbol(c): 
+				# Add symbol to the end of the current phrase
+				if not current_phrase:
+					current_phrase = ''
+				current_phrase += c
+				
+				# Add current phrase to phrase list if not empty
+				phrases.append(current_phrase)
+				
+				# Increment current_phrase
+				current_phrase = None
+			else: 
+				 # Concatenate the character at the end of current phrase
+				if not current_phrase:
+					current_phrase = '' 
+				current_phrase += c
 
 	# Add the last phrase to the list
 	if current_phrase: 
@@ -71,7 +97,7 @@ def calculateLPDlist (current_LPD_list, current_password, label):
 	cap_score = 0
 	pron_score = 0
 
-	# Test each phrase in ‘phrases’:
+	# Test each phrase in phrases:
 	for p in phrases:
 ####### Step 3 - Phrase size
 		score = numChar(len(p))
@@ -137,7 +163,7 @@ def isSymbol (c):
 def numPhrases (phrases):
 	LPD = 0
 
-	# Get the size of ‘phrases’:
+	# Get the size of phrases:
 	phrase_size = len(phrases)
 	# If phrase size is neither 1 or 2
 	if (phrase_size != 1) and (phrase_size != 2):
@@ -198,16 +224,17 @@ def mixedCharStr (password):
 
 def soundsLike (phrase):
 	# Method that returns an integer score for level of pronounceability of a word depending on how many different matching syllables
-	# Uses the onset – nucleus – coda syllable classification scheme used in English phonology. 
+	# Uses the onset-nucleus-coda syllable classification scheme used in English phonology. 
+	# Created with theoretical 
 
 	# Pull letter groups that match the following:
 	# Regex: [possible onset consonants][possible nucleus letters][possible coda letter sequences]
 
 	onset = "(P|B|T|D|K|G|W|F|Ph|V|Th|S|Z|M|N|L|R|W|H|Y|Sh|Ch|J|Pl|Bl|Kl|Gl|Pr|Br|Tr|Dr|Kr|Gr|Tw|Dw|Gw|Kw|Pw|Sp|Sk|St|Sm|Sn|Sph|Sth|Spl|Scl|Spr|Str|Scr|Squ|Sm|Sphr|Wr|Gn|Xy|ps)"
 	nucleus = "(I|E|A|O|U|Oo|Ea|Ir|Y|Oy|ee|ea|ou|o|ow)"
-	coda = "(P|B|T|D|K|G|W|F|Ph|V|Th|S|Z|M|N|L|R|Y|Sh|Ch|Lp|Lb|Lt|Lch|Lge|Lk|Rp|Rb|Rt|Rd|Rch|Rge|Rk|Rgue|Lf|Lve|Lth|Lse|Lsh|Rf|Rve|Rth|Rce|Rs|Rsh|Lm|Ln|Rm|Rn|Rl|Mp|Nt|Nd|Ch|Nge|Nk|Mph|Mth|Nth|Nce|Nze|Gth|Ft|Sp|St|Sk|Fth|Pt|Ct|Pth|Pse|Ghth|Tz|Dth|X|Lpt|Lfth|Ltz|Lst|Lct|Lx|Mth|Rpt|Rpse|Rtz|Rst|Rct|Mpt|Mpse|Ndth|Nct|Nx|Gth|Xth|xt|ng)"
+	coda = "(P|B|T|D|K|G|H|J|W|F|Ph|V|Th|S|Z|M|N|L|R|Q|Y|Sh|C|Lp|Lb|Lt|Lch|Lge|Lk|Rp|Rb|Rt|Rd|Rch|Rge|Rk|Rgue|Lf|Lve|Lth|Lse|Lsh|Rf|Rve|Rth|Rce|Rs|Rsh|Lm|Ln|Rm|Rn|Rl|Mp|Nt|Nd|Ch|Nge|Nk|Mph|Mth|Nth|Nce|Nze|Gth|Ft|Sp|St|Sk|Fth|Pt|Ct|Pth|Pse|Ghth|Tz|Dth|X|Lpt|Lfth|Ltz|Lst|Lct|Lx|Mth|Rpt|Rpse|Rtz|Rst|Rct|Mpt|Mpse|Ndth|Nct|Nx|Gth|Xth|xt|ng)"
 	
-	specials = "(hm)"
+	specials = "(hm|(" + onset + "*8(T|Th|S)))" # 1337 and other pneumonics can be added here
 
 	score = 0
 

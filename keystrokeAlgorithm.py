@@ -11,40 +11,52 @@ import re
 
 # screens
 def screen1 (password, count, i, type):
+	
 	if i < len(password):
 		symType = symbolType[type](password[i])
+		currentChar = password[i]
 		i += 1
 
 		if symType == 0:
 			count += 1
+			print('Screen 1, current character:'+ currentChar +', Key count:' + str(count))
 			return screen1(password, count, i, type)
 		elif symType == 1:
 			count += 2
+			print('Screen 1, current character:'+ currentChar +', Key count:' + str(count))
 			return screen1(password, count, i, type)
 		elif symType == 2:
 			count += 2
+			print('Screen 1, current character:'+ currentChar +', Key count:' + str(count))
 			return screen2(password, count, i, type)
 		else: 
 			count += 3
+			print('Screen 1, current character:'+ currentChar +', Key count:' + str(count))
 			return screen3(password, count, i, type)
 	else:
 		return count
 
 def screen2 (password, count, i, type):
 	if i < len(password):
-		i += 1
 		symType = symbolType[type](password[i])
+		currentChar = password[i]
+		i += 1
+
 		if symType == 0:
 			count += 2
+			print('Screen 2, current character:'+ currentChar +', Key count:' + str(count))
 			return screen1(password, count, i, type)
 		elif symType == 1:
 			count += 3
+			print('Screen 2, current character:'+ currentChar +', Key count:' + str(count))
 			return screen1(password, count, i, type)
 		elif symType == 2:
 			count += 1
+			print('Screen 2, current character:'+ currentChar +', Key count:' + str(count))
 			return screen2(password, count, i, type)
 		else: 
 			count += 2
+			print('Screen 2, current character:'+ currentChar +', Key count:' + str(count))
 			return screen3(password, count, i, type)
 	else:
 		return count
@@ -52,18 +64,24 @@ def screen2 (password, count, i, type):
 def screen3 (password, count, i, type):
 	if i < len(password):
 		symType = symbolType[type](password[i])
+		currentChar = password[i]
 		i += 1
+
 		if symType == 0:
 			count += 2
+			print('Screen 3, current character:'+ currentChar +', Key count:' + str(count))
 			return screen1(password, count, i, type)
 		elif symType == 1:
 			count += 3
+			print('Screen 3, current character:'+ currentChar +', Key count:' + str(count))
 			return screen1(password, count, i, type)
 		elif symType == 2:
 			count += 2
+			print('Screen 3, current character:'+ currentChar +', Key count:' + str(count))
 			return screen2(password, count, i, type)
 		else: 
 			count += 1
+			print('Screen 3, current character:'+ currentChar +', Key count:' + str(count))
 			return screen3(password, count, i, type)
 	else:
 		return count
@@ -71,36 +89,35 @@ def screen3 (password, count, i, type):
 def upLower (character):
 	# Character is a lower
 	regex = "[a-z]"
-	match = re.findall(regex, character)
+	match = re.search(regex, character)
 	if match:
 		return 0
 
 	# Character is an upper (add one keystroke for shift)
 	regex = "[A-Z]"
-	match = re.findall(regex, character)
+	match = re.search(regex, character)
 	if match:
 		return 1
 
+	return -1
+
 def upLowerSymDesktop (character):
 	# Character is a lower, or other character that doesn't require a shift press
-	regex = "[a-z]|[0-9]|`|\[|\]|;|'|,|\.|\/|\-|\="
-	match = re.findall(regex, character)
+	regex = "([a-z]|[0-9]|`|\[|\]|;|'|,|\.|\/|\-|\=)"
+	match = re.search(regex, character)
 	if match:
 		return 0
 
 	# Character is an upper or other character requiring a shift press
-	regex = "[A-Z]"
-	match = re.findall(regex, character)
-	if match:
-		return 1
+	return 1
 
 def upLowerSymipad(character):
 	notSym = upLower(character);
 
 	if notSym == -1:
 		# Character is a symbol in ipad group 1
-		regex = "[0-9]|-|\/|:|;|\)|\(|&|\$|@|\.|,|\?|!|\"|\'"
-		match = re.findall(regex, character)
+		regex = "([0-9]|-|\/|:|;|\)|\(|&|\$|@|\.|,|\?|!|\"|\')"
+		match = re.search(regex, character)
 		if match:
 			return 2
 
@@ -115,26 +132,13 @@ def upLowerSymandroid(character):
 
 	if notSym == -1:
 		# Character is a symbol in android group 1
-		regex = "[0-9]|\^|\*|-|\/|:|;|\)|\(|&|\$|@|\.|,|\?|!|\"|\'"
-		match = re.findall(regex, character)
+		regex = "([0-9]|\^|\*|-|\/|:|;|\)|\(|&|\$|@|\.|,|\?|!|\"|\')"
+		match = re.search(regex, character)
 		if match:
 			return 2
 
 		# Character is a symbol in android group 2
 		return 3
-
-	else: 
-		return notSym
-
-def upLowerSymandroid(character):
-	notSym = upLower(character);
-
-	if notSym == -1:
-		# Character is a symbol you must hit shift to access
-		regex = "[0-9]|\\^|*|-|/|:|;|\\)|\\(|&|\\$|@|\\.|,|\\?|!|\"|'|"
-		match = re.findall(regex, character)
-		if match:
-			return 2
 
 	else: 
 		return notSym
@@ -168,7 +172,10 @@ def desktopkeystrokecount(password):
 # Main method to add all keystroke types for two versions of the same password to an existing list
 def calcKeystrokeList(current_LPD_list, password, label):
 	# Calculate android keystrokes
+	print('\nAndroid')
 	current_LPD_list[label+'androidkeystrokes'] = androidkeystrokecount(password)
+	print('\nipad')
 	current_LPD_list[label+'ipadkeystrokes'] = ipadkeystrokecount(password)
+	print('\ndesktop')
 	current_LPD_list[label+'desktopkeystrokes'] = desktopkeystrokecount(password)
 	return current_LPD_list

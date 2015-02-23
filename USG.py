@@ -1,5 +1,8 @@
 # Automate Rating Usability of Generated Passwords
 # Cathryn Ploehn
+
+# Python 3.4.0
+
 # Takes a text file containing a list of generated passwords and rates each password based on its total difficulty (LPD) 
 # and score for each step of the LPD algorithm according to a scale based on structural properties. 
 # 
@@ -36,13 +39,13 @@ import re
 
 # Dependent on these external python files
 #   Created by Cathryn Ploehn
-import LPD_algorithm
-import keystroke_algorithm
-import character_count
+import lpdAlgorithm
+import keystrokeAlgorithm
+import characterCount
 
-# Created by Joshua Franklin
-import multiEntropyLoss
-import singleTransform
+#   Created by Joshua Franklin
+import permutedPasswordEntropyLoss
+import permutePassword
 
 
 print ("\n\nAutomate Rating Usability of Generated Passwords by Cathryn Ploehn\n\n" +
@@ -54,13 +57,13 @@ print ("\n\nAutomate Rating Usability of Generated Passwords by Cathryn Ploehn\n
 
 # Data I/O
 # Ask user for name of file where passwords are stored
-outputFilename = input('Enter the name of the output file: ')
+outputFilename = input("Enter the name of the output file: ")
 outputFilename = "output/" + outputFilename
 print("Processing...\n\n")
 
 ################ Change input file here #######################
 # Open file with passwords stored
-i = open('input/catCode-results-10thousand-2015-01-15.txt', 'r')
+i = open('input/QA-test-1.txt', 'r')
 
 # Parse input
 # Stores current LPD scores for each step of the algorithm (only for the current password)
@@ -76,34 +79,34 @@ current_phrase = None
 
 # Read a password from file input
 for line in i:
-    # Store the password string at the end of ‘passwords’ and assign to ‘current_password’
+    # Store the password string at the end of passwords and assign to current_password
     current_password = line
     passwords.append(current_password)
     print("\n"+current_password)
 
     # Add LPD calculations
-    current_LPD_list = LPD_algorithm.calculateLPDlist(current_LPD_list, current_password, '')
+    current_LPD_list = lpdAlgorithm.calculateLPDlist(current_LPD_list, current_password, '')
     current_LPD_list['originalPassword'] = current_password.strip()
 
     # Permute password
-    current_LPD_list['permutedPassword'] = singleTransform.permutePass(current_LPD_list['originalPassword'])
-    current_LPD_list = LPD_algorithm.calculateLPDlist(current_LPD_list, current_LPD_list['permutedPassword'], 'new')
+    current_LPD_list['permutedPassword'] = permutePassword.permutePass(current_LPD_list['originalPassword'])
+    current_LPD_list = lpdAlgorithm.calculateLPDlist(current_LPD_list, current_LPD_list['permutedPassword'], 'new')
 
     # Calculate entropy
-    current_LPD_list = multiEntropyLoss.entropyData(current_LPD_list,current_LPD_list['originalPassword'])
+    current_LPD_list = permutedPasswordEntropyLoss.entropyData(current_LPD_list,current_LPD_list['originalPassword'])
     
     # Calculate keystrokes
-    current_LPD_list = keystroke_algorithm.calcKeystrokeList(current_LPD_list, current_LPD_list['originalPassword'], '')
-    current_LPD_list = keystroke_algorithm.calcKeystrokeList(current_LPD_list, current_LPD_list['permutedPassword'], 'new')
+    current_LPD_list = keystrokeAlgorithm.calcKeystrokeList(current_LPD_list, current_LPD_list['originalPassword'], '')
+    current_LPD_list = keystrokeAlgorithm.calcKeystrokeList(current_LPD_list, current_LPD_list['permutedPassword'], 'new')
 
     
     # Calculate length, number of letters, number of numerics and number of symbols in each password
     current_LPD_list['length'] = len(current_LPD_list['originalPassword'])
-    current_LPD_list['numLetters'] = character_count.countLetters(current_LPD_list['originalPassword'])
-    current_LPD_list['numNumbers'] = character_count.countNumbers(current_LPD_list['originalPassword'])
-    current_LPD_list['numSymbols'] = character_count.countSymbols(current_LPD_list['originalPassword'])
+    current_LPD_list['numLetters'] = characterCount.countLetters(current_LPD_list['originalPassword'])
+    current_LPD_list['numNumbers'] = characterCount.countNumbers(current_LPD_list['originalPassword'])
+    current_LPD_list['numSymbols'] = characterCount.countSymbols(current_LPD_list['originalPassword'])
 
-    # Store current LPD score list in ‘USG_list’
+    # Store current LPD score list in USG_list  
     USG_list.append(current_LPD_list)
     current_LPD_list = {}
 

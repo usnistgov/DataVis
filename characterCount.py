@@ -1,3 +1,9 @@
+# Utilities to count number of letters, numbers, and symbols in a string input (password)
+# Cathryn Ploehn
+
+# Python 3.4.0
+
+
 import re
 
 def countLetters(password):
