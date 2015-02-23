@@ -1,8 +1,13 @@
-// Change filenames here to change data for visualization
+// Load in data file
 d3.csv(vizFilename,
         function(d) {
           return {
+            // assign CSV data to D3 data counterpart
+            // Passwords
             originalPassword: d.originalPassword,
+            permutedPassword: d.permutedPassword,
+
+            // LPD steps and total
             symbolStart: +d.symbolStart,
             chunks: +d.chunks,
             characters: +d.characters,
@@ -11,15 +16,7 @@ d3.csv(vizFilename,
             pronounceable: +d.pronounceable,
             lpd: +d.lpd,
 
-            desktopkeystrokes: +d.desktopkeystrokes,
-            androidkeystrokes: +d.androidkeystrokes,
-            ipadkeystrokes: +d.ipadkeystrokes,
-            entropy: +d.entropy,
-            newentropy: +d.newentropy,
-            newipadkeystrokes: +d.newipadkeystrokes,
-            newandroidkeystrokes: +d.newandroidkeystrokes,
-            newdesktopkeystrokes: +d.newdesktopkeystrokes,
-            
+            // Permuted LPD steps
             newlpd: +d.newlpd,
             newpronounceable: +d.newpronounceable,
             newmixedCharacterString: +d.newmixedCharacterString,
@@ -27,10 +24,22 @@ d3.csv(vizFilename,
             newcharacters: +d.newcharacters,
             newchunks: +d.newchunks,
             newsymbolStart: +d.newsymbolStart,
+
+            // Keystrokes
+            desktopkeystrokes: +d.desktopkeystrokes,
+            androidkeystrokes: +d.androidkeystrokes,
+            ipadkeystrokes: +d.ipadkeystrokes,
+            newipadkeystrokes: +d.newipadkeystrokes,
+            newandroidkeystrokes: +d.newandroidkeystrokes,
+            newdesktopkeystrokes: +d.newdesktopkeystrokes,
+
+            // Entropy
+            entropy: +d.entropy,
+            newentropy: +d.newentropy,
             lostentropy: +d.lostentropy,
             percententropyLoss: +d.percententropyLoss,
-            permutedPassword: d.permutedPassword,
 
+            // Other metrics
             passwordlength: +d.passwordlength,
             numLetters: +d.numLetters,
             numNumbers: +d.numNumbers,
@@ -38,9 +47,10 @@ d3.csv(vizFilename,
           };
         }, //Function to run once data is loaded
         function(error, data) {
-          // console.log(data); //print data to the console
+          console.log(data); //print data object to the console
           
-          data.sort(compareentropy);
+          // Default sorting for passwords 
+          data.sort(comparenewentropy);
 
           newData = data;
           updatedData = data;
@@ -93,7 +103,7 @@ function loadChangeData() {
               function(error, data) {
                 // console.log(data); //print data to the console
                 
-                data.sort(compareentropy);
+                data.sort(comparenewentropy);
 
                 changeData = data;
                 // newData = data;
@@ -102,8 +112,9 @@ function loadChangeData() {
         });
   }
 
-          $(document).ready(function(){
-              
-              svgsidebarelement = document.getElementById('chartsvg');  
-              guievents();            
-          });
+// When document is ready, set up GUI triggered events
+$(document).ready(function(){
+    
+    // svgsidebarelement = document.getElementById('chartsvg');  
+    guievents();            
+});

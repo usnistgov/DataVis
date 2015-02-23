@@ -1,9 +1,0 @@
-To run the viz.exe file from NIST computer without a XAMPP / Apache server running on your machine, open a new Chrome window from the command line. Make sure chrome is completely closed:
-
-### PC ###
-	1. cd to the following path: C:\Program Files (x86)\Google\Chrome\Application\' (or where chrome.exe is located)
- 	2. Run chrome using this command "chrome.exe --allow-file-access-from-files"
-
-### MAC ###
-	To run on a mac, assuming you have chrome installed in your applications directory, type this into the terminal:
-		open /Applications/Google\ Chrome.app --args -allow-file-access-from-files

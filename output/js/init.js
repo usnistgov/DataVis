@@ -6,8 +6,9 @@ var changeData;
 
 //Set constants and global variables
 var margin = { top: 0, right: 0, bottom: 0, left: 300 },
+    labelsMargin = 150, // Margin for password labels
     width = 960,
-    height = 800,
+    height = 800, 
     gridSize = Math.floor(height / 40),
     tinyBlockSize = 2,
     legendElementWidth = gridSize*2,
@@ -61,12 +62,12 @@ colors['WtBl'] = colorbrewer.WtBl[buckets];
 colors['Greys'] = colorbrewer.Greys[buckets];
 currentColorScale = 'WtBl';
 
-//Create main svg where large graphic will reside
-var svg;
-var svgSidebar;
-var svgsidebarelement;
-var svgBreakdown;
-var svgColumns;
+// SVG objects for parts of the visualization
+var svg; // Tier 2, left hand side large grid
+var svgSidebar; // Tier 1, mini map of whole dataset
+var svgelem
+var svgBreakdown; // Tier 3, right hand side visualization
+var svgColumns; // Column labels
 var bBox;
 var gridType = "originalData";
 
@@ -110,7 +111,7 @@ var drag = d3.behavior.drag()
 
 // Slider values
 var sliderRanges = [];
-var currentSelections = [];
+var currentSelections = []; // Which rows of passwords are hidden
 
 // Holds currently visible items
 var currentSelection;

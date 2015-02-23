@@ -1,19 +1,18 @@
-function LoadingScreen () {
-
-}
+// Adds and removes a spinning wheel to and from the whole screen to indicate loading
+function LoadingScreen () {}
 LoadingScreen.showScreen = function(data, callback){
   $('#loadingScreen').show();
   spinner.spin(target);
   callback(data, LoadingScreen.hideScreen);
 };
-
 LoadingScreen.hideScreen = function(){
   $('#loadingScreen').hide();
   spinner.stop();
 };
 
+// Handles event triggers for customization options on the right hand side
 function guievents (){
-
+  // Sorts the rows of passwords
   $(".sortBtn").click(function(){
     var id = $(this).children().attr("id");
     $('.display-btn').addClass('active');
@@ -21,6 +20,7 @@ function guievents (){
 
   });
 
+  // Changes data view
   $(".databtn").click(function(){
     var id = $(this).children().attr("id");
     $('.display-btn').addClass('active');
@@ -29,6 +29,7 @@ function guievents (){
   
   });
   
+  // Changes columns visible
   $(".display-btn").click(function(){
     var id = $(this).attr("id");
     id = id.replace("display", "");
@@ -37,6 +38,7 @@ function guievents (){
   
 }
 
+// Sets up values for sliders 
 function initializeSliders() {
   // console.log(sliderRanges);
      $( ".slider" ).each(function(){
@@ -66,39 +68,20 @@ function initializeSliders() {
      });
 }
 
+// Changes the opacity of certain passwords based on sliders on right hand size (controls > filter)
 function filterPasswords (type, range) {
   // Select all passwords and have them appear
   d3.selectAll(".hiderow")    
         .style("opacity", 1);
 
-   // // // Move blocks
-   // var  heightCounter = 0;
-   // for(var inc = 0; inc < columnList.length/2; inc++){
-   //  var thisclassname = "."+columnList[i] + "block";
-   //  d3.selectAll(thisclassname)
-   //  .attr("transform", function(d, i) { 
-   //    if((d[type] >= range[0] && d[type] <= range[1])){
-   //      console.log(this);
-   //      var t = d3.transform(d3.select(this).attr("transform"));
-   //      var x = t.translate[0];
-   //      return  "translate(" + x + "," + (heightCounter * gridSize + margin.top + gridSize/2) + ")";
-   //      heightCounter += 1;
-   //    }
-   //  });
-   // }
-  
-
   // refresh the selection with this data
   currentSelections[type] = d3.selectAll(".hiderow").filter(function(d) { return (d[type] < range[0] || d[type] > range[1]); });
-
-  // select all previous selections that should be hidden and rehide them
-  // select all passwords not apearing because of recent change and hide them
 
   // loop through currentSelections[]
   refreshSelections();
 }
   
-
+// Change data used
 function changeDataUsed (type, callback){
   d3.select(".minimapScrollpiece").attr("y", 10);
   svg.remove();
@@ -118,40 +101,25 @@ function changeDataUsed (type, callback){
   callback();
 }
 
+// Controller for passwords appearing
 function sort(type, callback){
   d3.select(".minimapScrollpiece").attr("y", 10);
   svg.remove();
   svgColumns.remove();
   svgBreakdown.remove();
   svgSidebar.remove();
-  
-  // console.log(originalData);
-  
+    
   if(type == "entropy"){
     newData.sort(compareentropy);
   } else if (type == "lpd") {
-    newData.sort(comparelpd);
+    newData.sort(comparenewlpd);
   } else if (type == "keystrokes") {
-    newData.sort(comparekeystrokes)
+    newData.sort(comparenewkeystrokes)
   } else {
-    newData.sort(comparepasswords);
+    newData.sort(compareentropy);
   }
 
-  // console.log(newData);
-  // console.log(svg.selectAll(".blockLabel"));
-
   drawGrid(newData, gridType);
-  
-  // for(var i = 0; i < columnList.length; i++){
-  //   var selector = "password" + i;
-      // console.log(svg.selectAll(".blockLabel").selectAll(selector));
-
-  //   svg.selectAll(".blockLabel").selectAll(selector)
-  //     .transition()
-  //     .duration(200)
-  //     .attr("transform", function(d, i){return "translate(0,"+ ((i - 1) * gridSize + 350) +")";});
-  // }
-
   callback();
 }
 
@@ -242,36 +210,36 @@ function updateSteps(column, callback) {
   callback();
 }
 
- // determine direction of movement and move large grid 
-  function dragmove(d) {
-    // console.log(d3.event.y +" from "+last_position);
-    var orgdy = last_position - d3.event.y * -1;
-    
-    svgsidebarelement = document.getElementById('chartsvg');
-    var viewBox = svgsidebarelement.getAttribute('viewBox'); // Grab the object representing the SVG element's viewBox attribute.
-    var viewBoxValues = viewBox.split(' ');       // Create an array and insert each individual view box attribute value (assume they're seperated by a single whitespace character).
+// determine direction of movement and move large grid 
+function dragmove(d) {
+  // console.log(d3.event.y +" from "+last_position);
+  var orgdy = last_position - d3.event.y * -1;
+  
+  svgsidebarelement = document.getElementById('chartsvg');
+  var viewBox = svgsidebarelement.getAttribute('viewBox'); // Grab the object representing the SVG element's viewBox attribute.
+  var viewBoxValues = viewBox.split(' ');       // Create an array and insert each individual view box attribute value (assume they're seperated by a single whitespace character).
 
-    viewBoxValues[0] = parseFloat(viewBoxValues[0]);    
-    viewBoxValues[1] = parseFloat(viewBoxValues[1])   // Convert string "numeric" values to actual numeric values.
-    
-    d3.select(this)
-      .attr("x", d.x = minimapX )
-      .attr("y", d.y = Math.max(10, Math.min($('body').height() - minimapHeight, d3.event.y)));
-    
-    if(!((d3.event.y) < -10 || d3.event.y > $('body').height()+10)) {
-        viewBoxValues[1] = d3.event.y * scrollScale;
-    }
-     
-    
-    // // Move downward
-    // if(orgdy < 0){
-    //   viewBoxValues[1] += d3.event.y * scrollScale;  // Increase the y-coordinate value of the viewBox attribute to pan down.
-    //   console.log("increment");
-    // } else {
-    //   viewBoxValues[1] += orgdy;  // Decrease the y-coordinate value of the viewBox attribute to pan up. 
-    //   console.log("decrement");
-    // }
+  viewBoxValues[0] = parseFloat(viewBoxValues[0]);    
+  viewBoxValues[1] = parseFloat(viewBoxValues[1])   // Convert string "numeric" values to actual numeric values.
+  
+  d3.select(this)
+    .attr("x", d.x = minimapX )
+    .attr("y", d.y = Math.max(10, Math.min($('body').height() - minimapHeight, d3.event.y)));
+  
+  if(!((d3.event.y) < -10 || d3.event.y > $('body').height()+10)) {
+      viewBoxValues[1] = d3.event.y * scrollScale;
+  }
+   
+  
+  // // Move downward
+  // if(orgdy < 0){
+  //   viewBoxValues[1] += d3.event.y * scrollScale;  // Increase the y-coordinate value of the viewBox attribute to pan down.
+  //   console.log("increment");
+  // } else {
+  //   viewBoxValues[1] += orgdy;  // Decrease the y-coordinate value of the viewBox attribute to pan up. 
+  //   console.log("decrement");
+  // }
 
-    svgsidebarelement.setAttribute('viewBox', viewBoxValues.join(' ')); // Convert the viewBoxValues array into a string with a white space character between the given values.
-    last_position = d3.event.y;
+  svgsidebarelement.setAttribute('viewBox', viewBoxValues.join(' ')); // Convert the viewBoxValues array into a string with a white space character between the given values.
+  last_position = d3.event.y;
 }  

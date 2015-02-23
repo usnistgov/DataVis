@@ -1,45 +1,59 @@
+// Dim rows of passwords
 function refreshSelections() {
     for (var key in currentSelections) {
-      currentSelections[key].style("opacity", 0);
+      currentSelections[key].style("opacity", 0.1);
     }
 }
 
-
+// Draw password labels, column labels
 function drawLabels(){
+  // Insert filename into HTML
+  $('#fileDisplayed').html(vizFilename);
+  $('#numPasswords').html(newData.length)
+
   // Create labels for main diagram
-      var passwordLabels = svg.selectAll(".passwordLabels")
-          .data(newData)
-          .enter().append("text")
-            .text(function (d) { return d['originalPassword']; })
-            .attr("x", +150)
-            .attr("y", function (d, i) { return i * gridSize + margin.top + gridSize/2; })
-            .style("text-anchor", "end")
-            .attr("transform", "translate(0," + gridSize / 1.5 + ")")
-            .attr("class", function (d, i) { return "password mono hiderow" })
-            .attr("id", function (d, i) { return "labelpassword"+i; });
+  var passwordLabels = svg.selectAll(".passwordLabels")
+      .data(newData)
+      .enter().append("text")
+        .text(function (d) { return d['originalPassword']; })
+        .style("text-anchor", "end")
+        .attr("transform", function (d, i) {
 
-      var permutedpasswordLabels = svg.selectAll(".permutedpasswordLabels")
-          .data(newData)
-          .enter().append("text")
-            .text(function (d) { return d['permutedPassword']; })
-            .attr("x", function(d, i){ return (columnList.length * (gridSize + 4)) + getStepLeftMargin(columnList.length, breakBounds, breakMargin)+ 150; })
-            .attr("y", function (d, i) { return i * gridSize + margin.top + gridSize/2; })
-            .style("text-anchor", "start")
-            .attr("transform", "translate(0," + gridSize / 1.5 + ")")
-            .attr("class", function (d, i) { return "password mono hiderow" })
-            .attr("id", function (d, i) { return "labelpermutedpassword"+i; });
+          return "translate(" + (labelsMargin) + "," +  (i * gridSize + margin.top + gridSize/.85) + ")";
+        })
+        .attr("class", function (d, i) { return "password mono hiderow" })
+        .attr("id", function (d, i) { return "labelpassword"+i; });
 
-      var stepLabels = svgColumns.selectAll(".stepLabel")
-          .data(steps)
-          .enter().append("text")
-            .text(function(d, i) { return d; })
-            .attr("x", 290 * -1)
-            .attr("y", function(d, i) { return i * gridSize + 208 + getStepLeftMargin(i, breakBounds, breakMargin); })
-            .style("text-anchor", "left", "fill", "#aaa")
-            .attr("transform", "rotate(-90)")
-            .attr("class", function(d, i){return "label"+columnList[i]+" stepLabel mono axis step "+columnList[i]});
+  var permutedpasswordLabels = svg.selectAll(".permutedpasswordLabels")
+      .data(newData)
+      .enter().append("text")
+        .text(function (d) { return d['permutedPassword']; })
+        .style("text-anchor", "start")
+        .attr("transform", function (d, i) {
+
+          return "translate(" + ((columnList.length * gridSize )+ getStepLeftMargin(columnList.length, breakBounds, breakMargin) + (gridMargin-labelsMargin
+            )+ gridMargin) + "," +  (i * gridSize + margin.top + gridSize/.85) + ")";
+        })
+        .attr("class", function (d, i) { return "password mono hiderow" })
+        .attr("id", function (d, i) { return "labelpermutedpassword"+i; });
+
+  var stepLabels = svgColumns.selectAll(".stepLabel")
+      .data(steps)
+      .enter().append("text")
+        .text(function(d, i) { return d; })
+        // .attr("x", 290 * -1)
+        // .attr("y", function(d, i) { return i * gridSize + 208 + getStepLeftMargin(i, breakBounds, breakMargin); })
+        .style("text-anchor", "start", "fill", "#000")
+        .attr("transform", function(d, i) {
+
+
+
+          return "translate(" + (((i+1) * gridSize) + (gridSize/3) + gridMargin + getStepLeftMargin(i, breakBounds, breakMargin)) + ", " + 300 + "), rotate(-70)";
+        })
+          .attr("class", function(d, i){return "label"+columnList[i]+" stepLabel mono axis step "+columnList[i]});
 }
 
+// Create blocks for tier 1 and 2
 function initializeBlocks(thisData){
     for(var ind = 0; ind < columnList.length; ind++){
       if(ind < ((columnList.length/2))){
@@ -48,7 +62,6 @@ function initializeBlocks(thisData){
       var name = columnList[ind]; //key for current column
       var colorScale = setColors(currentColorScale, name);
       // var thisobj = columnVarList[i];
-      console.log(name);
 
       // Initialize this block
       // Draw large grid
@@ -61,8 +74,8 @@ function initializeBlocks(thisData){
           .attr("id", function(d){return d['originalPassword'] + name;})
           .style("fill", colors[currentColorScale][0])
           .on("mouseover", function(d, i){
-            console.log("data: " + d);
-          console.log(ind+":  "+columnList[ind]); return hoverBlock(d, columnList[ind], this, "over", rangeList)}) //dataObj, name, obj, overVal, rangeList
+
+            return hoverBlock(d, columnList[ind], this, "over", rangeList)}) //dataObj, name, obj, overVal, rangeList
           .on("mouseout", function(d, i){return hoverBlock(d, columnList[ind], this, "out", rangeList)})
           .attr("value", function(d){return d[name];});
       // exit transition
@@ -72,8 +85,6 @@ function initializeBlocks(thisData){
           .attr("width", 0)
           .attr("height", 0)
           .style("fill", function(d) { return colorScale(d[name]); }).remove();
-      console.log(thisobj);
-
 
       // Initialize
       var tinyBlock = svgSidebar.selectAll(".tinyblock")
@@ -82,14 +93,13 @@ function initializeBlocks(thisData){
           .style("fill", function(d) { return colorScale(d[name]); })
           .attr("class", function(d, i){return "tinyscore password"+i+"tinyblock "+name+"tinyblock hiderow";})
           .attr("value", function(d){return d[name];});
-
-        // drawBlocks(columnVarList[i], columnList[i], i, newbreakMargin); //obj, name, index, newbreakMargin
     }
 
     drawBlocks();
 }
 
 // Draw main grid on left hand side and minimap grid
+// Draws column by column
 function drawBlocks() {
     for(var index = 0; index < columnList.length; index++){
           var newbreakMargin = getStepLeftMargin(index, breakBounds, breakMargin);
@@ -98,14 +108,12 @@ function drawBlocks() {
           
           var classname = "." + name;
           thisobj = svg.selectAll(classname);
-          // console.log(thisobj);
+
           // Update blocks
           thisobj
-              .attr("x", function(d, i) { return  index * gridSize + gridMargin + newbreakMargin; })
-              .attr("y", function(d, i){return i * gridSize + margin.top + gridSize/2;})
-              // .attr("transform", function(d, i){return "translate("+ (index * gridSize + gridMargin + newbreakMargin) + "," + (i * gridSize + margin.top + gridSize/2) +")";})
-              // .attr("rx", 50)
-              // .attr("ry", 50)
+              // .attr("x", function(d, i) { return  ((index * gridSize) + gridMargin + newbreakMargin); })
+              // .attr("y", function(d, i){return i * (gridSize + margin.top + gridSize/2);})
+              .attr("transform", function(d, i){return "translate("+ ((index * gridSize) + gridMargin + newbreakMargin) + "," + (((gridSize + margin.top) * i) + (gridSize/2)) +")";})
               .transition()
               .duration(1000)
               .attr("width", gridSize)
@@ -132,28 +140,29 @@ function drawBlocks() {
     }
 }
 
+// Determine and color each block
 function fillBlock(block, colorScale, name) {
-    if(gridType == 'changedata'){
-      block
-        .style("fill", function(d) { 
-          if(d[name] < 0) {
-            colorScale = setColors("BlWt", name);
-            return colorScale(d[name]);
-          } else if (d[name] > 0) {
-            colorScale = setColors("WtRd", name);
-            return colorScale(d[name]);
-          } else {
-            return "#ffffff"
-          }
-        });
+  if(gridType == 'changedata'){
+    block
+      .style("fill", function(d) { 
+        if(d[name] < 0) {
+          colorScale = setColors("BlWt", name);
+          return colorScale(d[name]);
+        } else if (d[name] > 0) {
+          colorScale = setColors("WtRd", name);
+          return colorScale(d[name]);
+        } else {
+          return "#ffffff"
+        }
+      });
 
-    } else {
-      block
-        .style("fill", function(d) { return colorScale(d[name]); });
-    }
+  } else {
+    block
+      .style("fill", function(d) { return colorScale(d[name]); });
+  }
 }
 
-// Draw navigotion panel
+// Draw navigation panel
 function drawScrollpiece () {
   svgSidebar.selectAll(".scrollpiece")
     .data(d3.range(1).map(function() { return {x: 0, y: 10}; })).enter()
@@ -309,8 +318,8 @@ function drawBreakdownBlocks (obj, index, substeps, stepLabelsBreakdown) {
 
 }
 
+// Color blocks based on mousehover of tier 2 (main large grid)
 function hoverBlock(dataObj, name, obj, overVal) { 
-    console.log('hover');
     var element = d3.select(obj).attr("class");
     var elemArray = element.split(" ");
     elemArray.splice(0, 3);
@@ -324,7 +333,6 @@ function hoverBlock(dataObj, name, obj, overVal) {
 
     name = elemArray[1];
 
-    console.log("name: " + name);
     if(overVal == "over"){
       var colorScale = setColors("PuRd", name);
       var colorScaleName = "PuRd";
@@ -362,17 +370,6 @@ function hoverBlock(dataObj, name, obj, overVal) {
     d3.selectAll(".passwordBreakdownLabel").transition()        
         .duration(100)      
         .text(function(d, i){if(i == 0){return dataObj['originalPassword']} else{return dataObj['permutedPassword'];}});
-    // d3.selectAll(".changeBreakdown").transition()        
-    //     .duration(100)      
-    //     .style("fill", function(d, i, rangeList){var newcolorScale = setColors("GnYlRd", 0);
-    //       var origVal = dataObj[columnList[i]];
-    //       var newVal = dataObj[columnList[i + (columnList.length * 1/2)]];
-    //       var domain = getColorDomain(columnList[i]);
-    //       var change = (newVal - origVal)/domain[1];
-          
-    //       return newcolorScale(change);
-    //     });
-
     
     var className = "#label"+elemArray[0];
       d3.select(className).transition()        
@@ -401,11 +398,9 @@ function hoverBlock(dataObj, name, obj, overVal) {
        // Change color scale for each row
        function changescale (datum) { 
           if(datum < 0) {
-            console.log(name);
             colorScale = setColors("BlWt", name);
             return colorScale(datum);
           } else if (datum > 0) {
-            console.log(name);
             colorScale = setColors("WtRd", name);
             return colorScale(datum);
           } else {
@@ -442,16 +437,13 @@ function hoverBlock(dataObj, name, obj, overVal) {
             .style("fill", function(d, i){return changescaleStep(d[columnList[i]], i);});
 
         className = "."+elemArray[0]+"tinyblock";
-        // console.log(className);
         d3.selectAll(className)      
             .style({"fill": function(d, i){return changescaleStep(d[columnList[i]], i);} , "opacity":1});
-            console.log("changedata");
+            // console.log("changedata");
 
     } else {
       // Color columns
       className = "."+elemArray[1]+"block";
-      console.log(className);
-      console.log(name);
       d3.selectAll(className)     
             .style({"fill": function(d, i){return colorScale(d[name]);}, "opacity": function(d, i){if(overVal =="over"){return 1;} else{return 0;} }});
 
@@ -465,7 +457,6 @@ function hoverBlock(dataObj, name, obj, overVal) {
           .style({"fill": function(d, i){var newcolorScale = setColors(colorScaleName, columnList[i]);return newcolorScale(d[columnList[i]]);}, "opacity":1});
 
       className = "."+elemArray[0]+"tinyblock";
-      // console.log(className);
       d3.selectAll(className)      
           .style({"fill": function(d, i){var newcolorScale = setColors(colorScaleName, columnList[i]);return newcolorScale(d[columnList[i]]);} , "opacity":1});
 
@@ -497,44 +488,41 @@ function hoverBlock(dataObj, name, obj, overVal) {
            if(result < 0){
             changeCol = "#E82C0C";
           } else {
-            changeCol = "#aaa";
+            changeCol = "#000";
           }
           return changeCol;
         });
 }
 
-  // determine direction of movement and move large grid 
-  function dragmove(d) {
-    // console.log(d3.event.y +" from "+last_position);
-    var orgdy = last_position - d3.event.y * -1;
-    
-    svgsidebarelement = document.getElementById('chartsvg');
-    var viewBox = svgsidebarelement.getAttribute('viewBox'); // Grab the object representing the SVG element's viewBox attribute.
-    var viewBoxValues = viewBox.split(' ');       // Create an array and insert each individual view box attribute value (assume they're seperated by a single whitespace character).
+// determine direction of movement and move large grid 
+function dragmove(d) {
+  var orgdy = last_position - d3.event.y * -1;
+  
+  svgsidebarelement = document.getElementById('chartsvg');
+  var viewBox = svgsidebarelement.getAttribute('viewBox'); // Grab the object representing the SVG element's viewBox attribute.
+  var viewBoxValues = viewBox.split(' ');       // Create an array and insert each individual view box attribute value (assume they're seperated by a single whitespace character).
 
-    viewBoxValues[0] = parseFloat(viewBoxValues[0]);    
-    viewBoxValues[1] = parseFloat(viewBoxValues[1])   // Convert string "numeric" values to actual numeric values.
-    
-    d3.select(this)
-      .attr("x", d.x = minimapX )
-      .attr("y", d.y = Math.max(10, Math.min($('body').height() - minimapHeight, d3.event.y)));
-    
-    if(!((d3.event.y) < -10 || d3.event.y > $('body').height())) {
-        viewBoxValues[1] = (d3.event.y - 10) * scrollScale;
-    }
-     
-    
-    // // Move downward
-    // if(orgdy < 0){
-    //   viewBoxValues[1] += d3.event.y * scrollScale;  // Increase the y-coordinate value of the viewBox attribute to pan down.
-    //   console.log("increment");
-    // } else {
-    //   viewBoxValues[1] += orgdy;  // Decrease the y-coordinate value of the viewBox attribute to pan up. 
-    //   console.log("decrement");
-    // }
+  viewBoxValues[0] = parseFloat(viewBoxValues[0]);    
+  viewBoxValues[1] = parseFloat(viewBoxValues[1])   // Convert string "numeric" values to actual numeric values.
+  
+  d3.select(this)
+    .attr("x", d.x = minimapX )
+    .attr("y", d.y = Math.max(10, Math.min($('body').height() - minimapHeight, d3.event.y)));
+  
+  if(!((d3.event.y) < -10 || d3.event.y > $('body').height())) {
+      viewBoxValues[1] = (d3.event.y - 10) * scrollScale;
+  }
+   
+  
+  // // Move downward
+  // if(orgdy < 0){
+  //   viewBoxValues[1] += d3.event.y * scrollScale;  // Increase the y-coordinate value of the viewBox attribute to pan down.
+  // } else {
+  //   viewBoxValues[1] += orgdy;  // Decrease the y-coordinate value of the viewBox attribute to pan up. 
+  // }
 
-    svgsidebarelement.setAttribute('viewBox', viewBoxValues.join(' ')); // Convert the viewBoxValues array into a string with a white space character between the given values.
-    last_position = d3.event.y;
+  svgsidebarelement.setAttribute('viewBox', viewBoxValues.join(' ')); // Convert the viewBoxValues array into a string with a white space character between the given values.
+  last_position = d3.event.y;
 }        
 
 // Determines whether there should be a margin in the main diagram 
