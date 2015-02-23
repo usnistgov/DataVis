@@ -4,6 +4,11 @@ _A tool for visualizing the convergence of usability and security in text-based 
 ## About this code
 This code comprises of a data visualization tool to explore password usability and security metrics. The visualization tool integrates various measurements of passwords, enabling exploration of the intersection of their usability and security components. The tool is based on insight from previously gathered data from usability studies conducted at the United States National Institute of Standards and Technology. It also leverages web technologies to flexibly display data sets computed from sets of passwords.
 
+## What this tool doesn't do
+
+- _Compare different data sets._ The tool calculates the mapping of values to color scales based on the one data set it is handling at a time. This means color values map differently with every dataset. The resulting visuals for datasets should not be compared side by side.
+
+- _Visualize human generated sets of passwords._ Due to the way in which entropy is calculated, this tool is only meant to visualize system generated passwords (randomly generated). The tool does not currently implement methods of measuring human generated sets of passwords. 
 
 ## How visualize a set of passwords
 
