@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+  <head>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/css/styles.css">
+
+  </head>
+  
+  <body>
+    <div class="container" >
+        <div class="row" >
+
+            <h1 id="usg-visualization-environment">USG.visualization.environment</h1>
+            <p>Data types:</p>
+            <ul>
+            <li>dataLocation: String referring to the file location of a dataset (with .csv or .txt). Used as a unique key for each dataset (without .csv or .txt)</li>
+            </ul>
+            <p>Classes: </p>
+            <ul>
+            <li><p><strong>EnvironmentInstance.</strong> - Holds a dataset and associated visualizations for that dataset.</p>
+            <ul>
+            <li><p><em>Properties</em>:</p>
+            <ul>
+            <li><strong>createData</strong> : Object representing the namespace &quot;environment.dataset.&quot; Used to create new datasets.</li>
+            <li><strong>datasets</strong> : Array. Holds array of Dataset objects loaded using loadData().</li>
+            <li><strong>metricSet</strong> : MetricSet. Holds set of metric objects. This set represents metadata for all datatypes in datasets[]. New metrics are created when loadData succeeds in loading data to the class and a datatype is not already in the MetricSet. MetricSet starts with 0 metrics until the first dataset is loaded.  </li>
+            <li><strong>this.visualizations</strong> : Array. Holds array of visualization objects for that environment instance. </li>
+            </ul>
+            </li>
+            <li><p><em>Methods</em>:</p>
+            <ul>
+            <li><strong>addHeatmapSet( dataLocation: String, config: String )</strong>: adds a HeatmapSet with the data location specified and the configuration specified.
+              configurations available: &quot;default&quot;
+              See heatmap.create(); For parameters. </li>
+            <li><strong>loadData( url, callback ) <em>( asychronous )</em></strong>: loads .csv file at the specified url location. The loaded data is used to create a Dataset object. If metrics in the dataset don&#39;t exist, new metrics are created in the <em>metricSet</em> property. Global domains of each metric are reset and data-specific domains are set using the new data.</li>
+            </ul>
+            </li>
+            <li><p><em>On initialization</em>:</p>
+            <ul>
+            <li>gui.initialize ( asychronous ) called.</li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+            <p>Public Methods:</p>
+            <ul>
+            <li><strong>environment.create( callback: function )</strong> - returns EnviromentInstance class. Exececutes callback function when asynchronous functions done.</li>
+            </ul>
+            <h2 id="-environment-dataset">(...).environment.dataset</h2>
+            <p>Templates and associated operations for dataset objects.</p>
+            <p>Classes:</p>
+            <ul>
+            <li><p><strong>DatasetInstance</strong> Holds a dataset and associated methods to perform on that dataset.</p>
+            <ul>
+            <li><p><em>Properties</em>:</p>
+            <ul>
+            <li><strong>dataset</strong> : Array. Holds data.</li>
+            <li><strong>metrics</strong> : List of which metrics the data has.</li>
+            </ul>
+            </li>
+            <li><p><em>Methods</em>:</p>
+            <ul>
+            <li><strong>hasMetric( metricName )</strong> : Returns whether the dataset has that type of data.</li>
+            <li><strong>sortData( byMetricType )</strong> : Sorts data by passed metric type.</li>
+            <li><strong>getData()</strong> : Returns stored dataset.</li>
+            </ul>
+            </li>
+            <li><p><em>On initialization</em>:</p>
+            <ul>
+            <li>Adds represented data in metrics[] according to dataset[0].</li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+            <p>Returned Methods:</p>
+            <ul>
+            <li><strong>dataset.create( data: Array )</strong> - Returns new DatasetInstance using passed data to create the object. </li>
+            </ul>
+            <h2 id="-environment-heatmap">(...).environment.heatmap</h2>
+            <p>Templates for heatmap visualization. </p>
+            <p>Classes:</p>
+            <ul>
+            <li><p><strong>HeatmapSet.</strong> Holds a dataset and associated visualizations for that dataset.</p>
+            <ul>
+            <li><p><em>Properties</em>:</p>
+            <ul>
+            <li><strong>key</strong> : Key for specific heatmap.</li>
+            <li><strong>dataKey</strong> : Key for data heatmap is representing.</li>
+            <li><strong>tiers</strong> : Holds tiers contained in this specific heatmap.</li>
+            <li><strong>metricSet</strong> : Array. Holds set of metric objects representing all datatypes in containing visualization.</li>
+            <li><strong>dataset</strong> : Dataset this visualization is representing.</li>
+            <li><strong>colorscheme</strong> : Array. Array of colors to be used for visualization. <ul>
+            <li>Normal: default color scheme</li>
+            <li>Highlight: color scheme used for hovering and other similar functions.</li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            <li><p><em>Methods</em>:</p>
+            <ul>
+            <li><strong>setMetricColorScheme()</strong> : Set color scheme for metricSet using the heatmap key.</li>
+            </ul>
+            </li>
+            <li><p><em>On initialization</em>:</p>
+            <ul>
+            <li>setMetricColorScheme(): Sets the default color scheme for metrics. </li>
+            <li>setDefaultVisibility( dataKey, key ): Sets the default visibility for metrics.</li>
+            <li>Create and initialize tiers associated with the configuration of the heatmap.</li>
+            <li><p>Load html to the browser. </p>
+            </li>
+            <li><p><em>Initialization methods:</em></p>
+            <ul>
+            <li>addHTML( tiers ): Append html from tiers to the browser.</li>
+            <li>initializeTiers(): Initialize all tiers.</li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+            <p>Returned Methods:</p>
+            <ul>
+            <li><strong>heatmap.create( dataKey: String , visualizationKey: String , dataset: dataset obj , config: String , metricSet: MetricSet )</strong> - create HeatmapSet with specified dataset key (dataLocation), visualization key (visualizationKey), dataset, configuration ( &quot;default&quot;, etc. )</li>
+            </ul>
+            <h3 id="-heatmap-gui">(...).heatmap.gui</h3>
+            <p>GUI properties for the this (heatmap) visualization type. </p>
+            <p>Constants:</p>
+            <pre><code>- EXTERNAL_HTML: String. Url to the heatmap html template file to be loaded.
+            </code></pre><h3 id="-heatmap-tier">(...).heatmap.tier</h3>
+            <p>Classes:</p>
+            <ul>
+            <li><p><strong>TierInstance.</strong> Generic version of heatmap grid</p>
+            <ul>
+            <li><p><em>Properties</em>:</p>
+            <ul>
+            <li><strong>key</strong> : Key for specific heatmap the tier is contained in.</li>
+            <li><strong>dataKey</strong> : Key for data the tier is representing.</li>
+            <li><strong>dataset</strong> : Dataset the tier is representing.</li>
+            <li><strong>metricSet</strong> : Array. Holds set of metric objects representing all datatypes in containing visualization.</li>
+            <li><p><strong>gridmetricSet</strong> : Symmetrical ordered list of metric names.</p>
+            <p>-<strong>svg</strong> : Holds properties for the svg(s) inside this tier. </p>
+            <p>-<strong>html</strong> : Holds properties for the html container of this tier.</p>
+            </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+            <pre><code>- _Methods_:
+                - __setMetricColorScheme()__ : Set color scheme for metricSet using the heatmap key.
+            </code></pre><ul>
+            <li><p><strong>Tier1.</strong> Small view with scrollbar.</p>
+            </li>
+            <li><p><strong>Tier2.</strong> Medium view, scrolls.</p>
+            </li>
+            <li><p><strong>Tier3.</strong> Close up view.</p>
+            </li>
+            </ul>
+            <p>Returned Methods:</p>
+            <ul>
+            <li><strong>tier.create(type)</strong> - create tier. <ul>
+            <li>@param <ul>
+            <li>type: int, specifies which typer of tier to create</li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+            <h2 id="-environment-metric">(...).environment.metric</h2>
+            <p>Classes:</p>
+            <ul>
+            <li><strong>MetricInstance.</strong> - Holds a metric and associated specifications for that metric.</li>
+            </ul>
+            <h2 id="-environment-gui">(...).environment.gui</h2>
+            <p>Methods:</p>
+            <ul>
+            <li><strong>gui.initialize( callback: function )</strong> - set up initial screen properties for the tool. Execute callback when done</li>
+            </ul>
+
+
+        </div>
+
+    </div>
+
+
+    
+
+
+
+    <!-- jQuery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    
+
+    <!-- Bootstrap-->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    
+  </body>
+</html>
