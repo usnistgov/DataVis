@@ -48,18 +48,27 @@
             float:right;
         }
 
+        .heatmap-tier1 {
+
+            button {
+                margin: 0 0 -10px 0;
+                border-radius: 300px;
+            }
+
+        }
+
     }
 
+    .heatmap-tier3,  {
+    	height: 100%;
+    	overflow-y: scroll;
+    	overflow-x: hidden;
+    }
 }
 .USG-alert {
     text-align: center;
 }
 
-.heatmap-tier3,  {
-	height: 100%;
-	overflow-y: scroll;
-	overflow-x: hidden;
-}
 
 .block {
     cursor: pointer;
