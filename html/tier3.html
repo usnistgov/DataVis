@@ -1,93 +1,15 @@
 <!-- Tier 3 -->
-  <div id="heatmap-tier3" class="col-sm-3 heatmap-tier3" style="padding-right: 30px">
+<div id="heatmap-tier3" class="col-sm-3 heatmap-tier3 tier" style="padding-right: 30px">
   <div class="row" id="heatmap-tier3-inner">
-  
 
-  <div class="alert alert-warning" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      This is an example password dataset.
+    <div class="panel-group heatmap-tier3-filedata" id="accordion"></div>
 
-  </div>
-  
-
-
-  <div class="panel-group heatmap-tier3-filedata" id="accordion">
-    <div class="panel panel-default">
-
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="" href="#collapseMetaOne">
-            About this dataset
-          </a>
-        </h4>
-      </div>
-      <div id="collapseMetaOne" class="panel-collapse collapse in">
-        <div class="panel-body">
-          <table class="table table-hover about-dataset-holder">
-            
-          </table>
-        </div> 
-      </div>
-
-    </div>
-  </div>
-
-
-  
-  <div class="panel-group heatmap-tier3-controls" id="accordion">
-    <h3>Controls</h3>
-    
-    <div class="panel panel-default" data-toggle="tooltip" title="Click and drag the sliders left and right to filter rows of passwords based on their metric value." data-placement="top">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="" href="#collapseTwo" >
-            Filter   
-         </a>
-        </h4>
-      </div>
-      <div id="collapseTwo" class="panel-collapse collapse">
-        <div class="panel-body">
-          <div class="container-fluid filter-holder" >
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default" data-toggle="tooltip" title="Click any metric name to rank rows of passwords by that metric" data-placement="top">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="" href="#collapseThree">
-            Rank by
-          </a>
-        </h4>
-      </div>
-      <div id="collapseThree" class="panel-collapse collapse">
-        <div class="panel-body">
-            <div class="btn-group rank-holder" data-toggle="buttons">
-                
-            </div>
-        </div>
-      </div>
-    </div>
-    <div class="panel panel-default" data-toggle="tooltip" title="Click any metric name to hide that metric column" data-placement="top">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="" href="#collapseFour">
-            Show/Hide Columns
-          </a>
-        </h4>
-      </div>
-      <div id="collapseFour" class="panel-collapse collapse">
-        <div class="panel-body">
-           <div class="button-group hide-columns-holder display-input-holder" data-toggle="buttons"></div>
+    <div class="panel-group heatmap-tier3-controls" id="accordion">
+      <div class="row">
+        <div class="col-md-12 heatmap-tier3-svg-container svg-container" id="heatmap-tier3-svg-container" data-toggle="tooltip" title="Hover over password rows on other grid(s) to view values of all metrics for that password" data-placement="top" >
+          <h3>Breakdown</h3>
         </div>
       </div>
     </div>
   </div>
-
-    <div class="row">
-      <div class="col-md-12 heatmap-tier3-svg-container svg-container" id="heatmap-tier3-svg-container" data-toggle="tooltip" title="Hover over password rows on other grid(s) to view values of all metrics for that password" data-placement="top" >
-        <h3>Breakdown</h3>
-      </div>
-  </div>
-    
-  </div>
+</div>
