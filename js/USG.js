@@ -378,7 +378,7 @@ console.log(USG);
 				loadData: function( dataLocation, callback ){
 					
 					var thisObj = this;
-					var url = "/data/" + dataLocation;
+					var url = "./data/" + dataLocation;
 					// Load data using d3.js
 					d3.csv( url , function parseRows ( d ) {
 
