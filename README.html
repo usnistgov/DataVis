@@ -1,10 +1,78 @@
 <h1 id="the-authentication-equation">The Authentication Equation</h1>
 <p><em>A tool for visualizing the convergence of usability and security in text-based passwords</em></p>
 <p><em>Note: if you are looking for the tool as it appeared in the HCII 2015 proceedings, you will find it here: <a href="https://github.com/usnistgov/DataVis/tree/HCII-2015">..DataVis/tree/HCII-2015</a></em></p>
+<p><strong>Explore the tool <a href="http://usnistgov.github.io/DataVis/">here</a></strong></p>
 <h2 id="overview">Overview</h2>
 <p>The USV (Usability and Security Visualizer) is a data visualization tool originally built to explore password usability and security metrics. The visualization tool integrates various measurements of passwords, enabling exploration of the intersection of their usability and security components. </p>
 <p>The tool is based on insight from previously gathered data from usability studies conducted at the United States National Institute of Standards and Technology. It also leverages web technologies to flexibly display data sets computed from sets of passwords.</p>
 <p>The USV is intented to visualize multivariate data (rows of data with different properties describing qualities of each row in columns).</p>
 <p>In a generic sense, the tool provides a mechanism for visualizing the same groups of metrics for rows of data in 2 different states or phases. The rows are organized symmetrically do display the the The example given is password permutation, or rearranging the passwords so that all characters are grouped by each character type (letters, numbers, symbols). Password permutation is intended to optimize the efficiency for password entry on a mobile device.</p>
+<h2 id="how-to-use-the-tool">How to use the tool</h2>
+<p>You can either use the tool online <a href="http://usnistgov.github.io/DataVis/">here</a> or download it for offline use.</p>
+<p>In order to use the tool online, you will have to create a dataset (Step B. below). </p>
+<h3 id="a-what-you-ll-need-">A. What you&#39;ll need:</h3>
+<ul>
+<li>A .txt file list of the passwords to be visualized. For example (newline separated):<pre><code>{x!_ZZX0
+n5Yw;_o@
+79IrVyE}
+,SJ#c15E
+.+1F2Hs/
+$oX&lt;D$2R
+7:OMx9kL
+b&gt;ANoN1i
+woP9Uo[=
+64#$FOpN
+uZ-$q8@)
+n]P27{D(
+|Vf99LVn
+</code></pre></li>
+<li>Python 3. Note that the code will not run properly earlier versions (Python 2, etc.). <ul>
+<li>If you don&#39;t have Python installed, <a href="https://www.python.org/downloads/">download it here</a>. </li>
+</ul>
+</li>
+<li>Chrome browser (updated).<ul>
+<li><a href="https://www.google.com/chrome/browser/desktop/">Download Chrome here.</a></li>
+</ul>
+</li>
+<li>Code/text editor (Sublime 2 works well and is free).<ul>
+<li><a href="http://www.sublimetext.com/2">Download Sublime 2 here</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="b-create-your-dataset">B. Create your dataset</h3>
+<ol>
+<li>Move your list of passwords (.txt file) to <code>DataVis/dataGen/input/</code>. </li>
+<li>Open <code>DataVis/dataGen/USG.py</code> in a code/text editor. </li>
+<li>Scroll to line 63, type in the filename of your list of passwords, and save the file:<pre><code>################ Change input file here #######################
+# Open file with passwords stored
+i = open(&#39;input/example.txt&#39;, &#39;r&#39;)
+</code></pre></li>
+<li>Open the Command Line (PC) or Terminal (Mac). </li>
+<li>Navigate (using the <code>cd</code> command) to the folder in which <code>USG.py</code> is contained (<code>DataVis/dataGen</code>).</li>
+<li>Run <code>USG.py</code> using the command <code>Python3 USG.py</code></li>
+<li>Enter a filename for the new dataset to be created when the program prompts you:<pre><code>Enter the name of the output file:
+</code></pre></li>
+<li>The new dataset should now appear in the <code>DataVis/dataGen/output</code> folder. </li>
+<li>Place your data in the <code>/data</code> folder for easy access.</li>
+</ol>
+<h3 id="c-visualize-your-dataset">C. Visualize your dataset</h3>
+<ol>
+<li><p>If you have downloaded the tool, open <code>index.html</code> using a server (localhost is a good option) or go to <a href="http://usnistgov.github.io/DataVis/">usnistgov.github.io/DataVis/</a>.
+If you don&#39;t have a server, you can also run the code without such an environment by following these instructions: </p>
+<ol>
+<li>Close Chrome if it is open (make sure all background operations of chrome have ceased.</li>
+<li><p>Open Chrome from the Command Line/Terminal:</p>
+<p>Mac </p>
+<pre><code>$ open /Applications/Google\ Chrome.app --args -allow-file-access-from-files
+</code></pre><p>PC</p>
+<ul>
+<li>cd to where chrome.exe is located before you run this command. The file path is probably similar to <code>C:\Program Files (x86)\Google\Chrome\Application\</code></li>
+</ul>
+<pre><code>&gt;&gt; chrome.exe --allow-file-access-from-files
+</code></pre></li>
+<li>Open <code>index.html</code> </li>
+</ol>
+</li>
+</ol>
 <h2 id="disclaimer">Disclaimer</h2>
 <p>“The United States Department of Commerce (DOC) GitHub project code is provided on an ‘as is’ basis and the user assumes responsibility for its use. DOC has relinquished control of the information and no longer has responsibility to protect the integrity, confidentiality, or availability of the information. Any claims against the Department of Commerce stemming from the use of its GitHub project will be governed by all applicable Federal law.Any reference to specific commercial products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply their endorsement, recommendation or favoring by the Department of Commerce. The Department of Commerce seal and logo, or the seal and logo of a DOC bureau, shall not be used in any manner to imply endorsement of any commercial product or activity by DOC or the United States Government.”</p>
