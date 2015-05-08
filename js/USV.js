@@ -358,7 +358,7 @@ var USV = USV || {};
 			loadData: function( thisObj , dataLocation,  callback ){
 				
 				var thisObj = thisObj,
-					url = "/data/" + dataLocation,
+					url = "./data/" + dataLocation,
 					index = thisObj.datasetCount;
 				// Load data using d3.js
 				d3.csv( url , function parseRows ( d ) {
