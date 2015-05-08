@@ -1,0 +1,214 @@
+<h1 id="usg">USG</h1>
+<h2 id="properties">Properties</h2>
+<ul>
+<li>this.currentEnvironment: Current environment variable (see USG.environment)</li>
+<li>this.showExample: Flag determining whether example data is shown</li>
+</ul>
+<h2 id="usg-constants">USG.constants</h2>
+<p>Metric and visualization constants</p>
+<h3 id="usg-constants-metric">USG.constants.metric</h3>
+<p>Metric definitions.</p>
+<ul>
+<li>METRIC_TYPES: Define metric properties.</li>
+<li>CATEGORY_TYPES: Define properties for each metric category, if necessary.</li>
+<li>DOMAIN_TYPES: Shorthand for types of domains each metric can have.</li>
+</ul>
+<h3 id="usg-constants-colors">USG.constants.colors</h3>
+<p>Color constants.</p>
+<ul>
+<li>colorbrewer: Holds color values for different scales</li>
+</ul>
+<h2 id="usg-environment">USG.environment</h2>
+<p>Controls the visualizations, datasets uploaded, and metric types.</p>
+<h4 id="classes-">Classes:</h4>
+<ul>
+<li><p><strong>EnvironmentInstance.</strong> - Holds a dataset and associated visualizations for that dataset.</p>
+<ul>
+<li><p><em>Properties</em>:</p>
+<ul>
+<li><strong>createData</strong> : Object representing the namespace &quot;environment.dataset.&quot; Used to create new datasets.</li>
+<li><strong>datasets</strong> : Array. Holds array of Dataset objects loaded using loadData().</li>
+<li><strong>metricSet</strong> : MetricSet. Holds set of metric objects. This set represents metadata for all datatypes in datasets[]. New metrics are created when loadData succeeds in loading data to the class and a datatype is not already in the MetricSet. MetricSet starts with 0 metrics until the first dataset is loaded.  </li>
+<li><strong>visualizations</strong> : Array. Holds array of visualization objects for that environment instance. </li>
+<li><strong>datasetCount</strong>: Number of datasets in this.datasets (see above)</li>
+</ul>
+</li>
+<li><p><em>Methods</em>:</p>
+<ul>
+<li><strong>addVisualization( dataLocation: String )</strong>: adds a visualization with the data location. </li>
+<li><strong>loadData( thisObj: EnvironmentInstance , dataLocation: String,  callback: Function ) <em>( asychronous )</em></strong>: loads .csv file at the specified url location. The loaded data is used to create a Dataset object. If metrics in the dataset don&#39;t exist, new metrics are created in the <em>metricSet</em> property. Global domains of each metric are reset and data-specific domains are set using the new data.</li>
+<li><strong>alertMessage( msg: String )</strong>: Updates GUI header with a bootstrap alert in Yellow.</li>
+<li><strong>parseData( name: String, file: File , callback: Function ) <em>( asychronous )</em></strong>: Parses a file into CSV format. Creates metric objects used in the visualization</li>
+<li><strong>processData( thisObj: EnvironmentInstance , dataLocation: String , data: Data , callback: function )</strong>: Processes a file into CSV format and loads as a visualization. Creates metric objects used in the visualization</li>
+<li><strong>clear()</strong>: Empty the environment</li>
+</ul>
+</li>
+<li><p><em>On initialization</em>:</p>
+<ul>
+<li>gui.initialize ( asychronous ) called.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="public-methods-">Public Methods:</h4>
+<ul>
+<li><strong>this.create( callback: function )</strong> - returns EnviromentInstance class. Exececutes callback function when asynchronous functions done.</li>
+</ul>
+<h2 id="environment-dataset">environment.dataset</h2>
+<p>Templates and associated operations for dataset objects.</p>
+<h4 id="classes-">Classes:</h4>
+<ul>
+<li><p><strong>DatasetInstance</strong> Holds a dataset and associated methods to perform on that dataset.</p>
+<ul>
+<li><p><em>Properties</em>:</p>
+<ul>
+<li><strong>dataset</strong> : Array. Holds data.</li>
+<li><strong>metrics</strong> : List of which metrics the data has.</li>
+</ul>
+</li>
+<li><p><em>Methods</em>:</p>
+<ul>
+<li><strong>hasMetric( metricName )</strong> : Returns whether the dataset has that type of data.</li>
+<li><strong>sortData( byMetricType )</strong> : Sorts data by passed metric type.</li>
+<li><strong>getData()</strong> : Returns stored dataset.</li>
+</ul>
+</li>
+<li><p><em>On initialization</em>:</p>
+<ul>
+<li>Adds represented data in metrics[] according to dataset[0].</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="returned-methods-">Returned Methods:</h4>
+<ul>
+<li><strong>dataset.create( data: Array )</strong> - Returns new DatasetInstance using passed data to create the object. </li>
+</ul>
+<h2 id="environment-visualization">environment.visualization</h2>
+<p>Templates for visualization. </p>
+<h4 id="classes-">Classes:</h4>
+<ul>
+<li><p><strong>VisualizationInstance.</strong> Holds a dataset and associated visualizations for that dataset.</p>
+<ul>
+<li><p><em>Properties</em>:</p>
+<ul>
+<li><strong>key</strong> : String. Key for specific heatmap.</li>
+<li><strong>container</strong>: String. Key for the html container</li>
+<li><strong>dataKey</strong> : String. Key for data heatmap is representing.</li>
+<li><strong>tiers</strong> : String. Holds tiers contained in this specific heatmap.</li>
+<li><strong>metricSet</strong> : Array. Holds set of metric objects representing all datatypes in containing visualization.</li>
+<li><strong>datasets</strong> : Array. Datasets this visualization is representing.</li>
+<li><strong>colorscheme</strong> : Array. Array of colors to be used for visualization. <ul>
+<li>Normal: default color scheme</li>
+<li>Highlight: color scheme used for hovering and other similar functions.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><em>Methods</em>:</p>
+<ul>
+<li><strong>init()</strong> : Create and initialize visualization tiers</li>
+<li><strong>addData( dataLocation:String , visualizationKey: String , dataset: Array )</strong>: Add new data and revisualize tiers if necessary</li>
+<li><strong>setMetricColorScheme()</strong> : Set color scheme for metricSet using the heatmap key.</li>
+<li><strong>createTiers( whichTiers: Array, dataset: Array , mode: String )</strong> : Create and add tiers to this object. Each index in whichTiers array represents a new tier to create. The value of each index represents the type of tier to create.</li>
+<li><strong>createTier( whichTiers: Array, dataset: Array , mode: String )</strong> : Create and add single tier to this object. </li>
+<li><strong>connectTiers( whichTiers: Array )</strong> : Connect tiers to each other. Connected tiers will be able to trigger one another when interacted with. whichTiers is an array of the indexes of this.tiers[] to be connected. whichTiers[0] is the tier to be connected to whichTiers[i].
+-<strong>initializeTiers( deferred: Deferred )</strong>: Initialize tiers in the visualization object (create SVG and visualize)
+-<strong>addHTML( tiers: Array[Tiers] )</strong>: Append html from tiers to the browser.</li>
+</ul>
+</li>
+<li><p><em>On initialization</em>:</p>
+<ul>
+<li>setMetricColorScheme(): Sets the default color scheme for metrics. </li>
+<li>setDefaultVisibility( dataKey, key ): Sets the default visibility for metrics.</li>
+<li>Create and initialize tiers associated with the configuration of the heatmap.</li>
+<li>Load html to the browser. </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="returned-methods-">Returned Methods:</h4>
+<ul>
+<li><strong>visualization.create( dataKey: String , visualizationKey: String , dataset: dataset obj , config: String , metricSet: MetricSet )</strong> - Create and return HeatmapSet object with specified dataset key (dataLocation), visualization key (visualizationKey), dataset, configuration ( &quot;default&quot;, etc. )</li>
+</ul>
+<h3 id="-visualization-gui">(...).visualization.gui</h3>
+<p>GUI properties for the this (heatmap) visualization type. </p>
+<p>Accessible Constants:</p>
+<pre><code>- EXTERNAL_HTML: String. Url to the heatmap html template file to be loaded.
+</code></pre><h3 id="-visualization-tier">(...).visualization.tier</h3>
+<p>Templates for creation of tiers, or heatmap grids, which are modules of a HeatmapSet. </p>
+<h4 id="classes-">Classes:</h4>
+<ul>
+<li><p><strong>TierInstance.</strong> Generic version of visualization tier</p>
+<ul>
+<li><em>Properties</em>:<ul>
+<li><strong>key</strong> : String. Key for specific tier within the heatmap it is contained in.</li>
+<li><strong>parentKey</strong> : String. Key for specific heatmap the tier is contained in.</li>
+<li><strong>dataKey</strong> : String. Key for data the tier is representing.</li>
+<li><strong>dataset</strong> : String. Dataset object for the data the tier is representing.</li>
+<li><strong>metricSet</strong> : String. Array. Holds MetricSet object representing all datatypes in containing visualization.
+-<strong>svg</strong> : Object. Svg object for this tier. Holds dimensions of 
+-<strong>html</strong> : Holds properties for the html container of this tier.
+  -<strong>parentContainer</strong> : String. id of container element.<ul>
+<li><strong>id</strong> : String. id where html of this tier is contained.</li>
+<li><strong>url</strong> : String. url location of where the html of this tier is contained.</li>
+<li><strong>markup</strong>: String. Once loadHTML() is used, stores HTML markup of this tier.
+-<strong>grid</strong> : Properties for the grid visual of this tier</li>
+<li><strong>size</strong> : <ul>
+<li>width : Integer. Width of grid block</li>
+<li>height : Integer. Height of grid block
+-<strong>margin</strong> : Global margin of this tier</li>
+</ul>
+</li>
+<li>top</li>
+</ul>
+</li>
+<li><strong>type</strong> : Integer. Type of tier.</li>
+<li><strong>connectedTiers</strong> : Array. Connected tiers. Can be triggered via interactions with this tier. </li>
+<li><strong>hiddenRows</strong>: Object. Lists rows that are hidden along with their d3 selections for editing. </li>
+<li><strong>totalGutterCount</strong> : Tracks the total count of gutters ( spaces between column categories ). Counted in this.countGutters();</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>- _Methods_:
+    - __loadHTML() _( asychronous )___ :  Loads html into this.html. Returns deferred promise object.
+    - __countGutters()__ : Counts the total count of gutters ( spaces between column categories )
+    - __visualize()__ : Establishes the visuals of the tier. Needs to be implemented by a subclass. 
+    - __createsvg__ : Defines svg properties and creates svg objects for the tier. Needs to be implemented by a subclass. 
+    - __initialize()__ : Starts up the visualization of the tier. Initializes all properties.
+    - __getHTML()__ : Returns the HTML markup of this tier. 
+    - __draw()__ :
+    - __ __ : 
+</code></pre><ul>
+<li><p><strong>Tier1.</strong> Small, overhead view.</p>
+</li>
+<li><p><strong>Tier2.</strong> Medium view.</p>
+</li>
+<li><p><strong>Tier3.</strong> Close up view.</p>
+</li>
+</ul>
+<h4 id="returned-methods-">Returned Methods:</h4>
+<ul>
+<li><strong>tier.create(type)</strong> - create tier. <ul>
+<li>@param <ul>
+<li>type: int, specifies which typer of tier to create</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="-environment-metric">(...).environment.metric</h2>
+<h4 id="classes-">Classes:</h4>
+<ul>
+<li><strong>MetricInstance.</strong> - Holds a metric and associated specifications for that metric.</li>
+</ul>
+<h2 id="-environment-gui">(...).environment.gui</h2>
+<h4 id="methods-">Methods:</h4>
+<ul>
+<li><strong>gui.initialize( callback: function )</strong> - set up initial screen properties for the tool. Execute callback when done</li>
+</ul>

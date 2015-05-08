@@ -1,0 +1,29 @@
+<div id="loadingScreen"></div>
+
+<div class="container-fluid" id="vizualizations-holder-container">
+	<nav class="navbar navbar-default navbar-visualization">
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<!-- <span class="navbar-brand" id="navbar-displayed-visualization-name" ></span> -->
+			<div class="nav navbar-nav navbar-left">
+				<!-- Visible Heatmap -->
+				<span class="btn btn-lg">Dataset:</span>
+				<div class="btn-group navbar-btn">
+				  <button type="button" class="btn btn-default dropdown-toggle btn-lg" data-toggle="dropdown" aria-expanded="false">
+				    <span id="navbar-displayed-visualization-name" >Display</span> <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" id="navbar-displayed-visualization" role="menu"></ul>
+				</div>
+				<span class="btn btn-lg">Type:</span>
+				<div class="btn-group" data-toggle="buttons">
+				  <label class="btn btn-default active btn-lg vis-type" id="heatmap">
+				    <input type="radio" name="vis-type"  autocomplete="off"> heatmap
+				  </label>
+				  <label class="btn btn-default btn-lg vis-type" id="parcoords">
+				    <input type="radio" name="vis-type"  autocomplete="off" checked> parallel coords
+				  </label>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div id="vizualizations-holder" class="row"></div>
+</div>

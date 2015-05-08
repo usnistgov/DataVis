@@ -1,4 +1,0 @@
-originalPassword,symbolStart,chunks,characters,unsentenceLikeCaps,mixedCharacterString,pronounceable,lpd,entropy,permutedPassword,newentropy,newsymbolStart,newchunks,newcharacters,newunsentenceLikeCaps,newmixedCharacterString,newpronounceable,newlpd,ipadkeystrokes,newipadkeystrokes,androidkeystrokes,newandroidkeystrokes,desktopkeystrokes,newdesktopkeystrokes,passwordlength,numLetters,numNumbers,numSymbols
-aA^*a^,0,0,-1,1,0,0,0,5.906890595608516,Aaa^*^,-5.906890595608516,0,0,1,-1,0,0,0,3,-3,2,-2,0,0,6,3,0,3
-aA^*a~,0,0,-1,1,0,0,0,5.906890595608516,Aaa^*~,-5.906890595608516,0,0,1,-1,0,0,0,3,-3,2,-2,0,0,6,3,0,3
-aA~a**,0,0,-1,1,0,0,0,5.906890595608516,Aaa~**,-5.906890595608516,0,0,1,-1,0,0,0,3,-3,1,-1,0,0,6,3,0,3
