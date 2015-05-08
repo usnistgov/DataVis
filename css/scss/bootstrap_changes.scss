@@ -1,0 +1,30 @@
+.panel-default {
+  webkit-box-shadow: 0 0 0 rgba(0,0,0,.0);
+  box-shadow: 0 0 0 rgba(0,0,0,.0);
+}
+
+.panel-heading {
+	border-radius: 10px;
+}
+
+svg:not(:root) {
+	overflow: scroll;
+}
+
+.panel-default>.panel-heading {
+	
+	background-color: white;
+
+}
+
+canvas {
+	display: inline
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	border: 0px;
+}
+
+.btn-group-vertical {
+	width: 100%;
+}
