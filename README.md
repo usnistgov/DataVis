@@ -1,8 +1,16 @@
 # The Authentication Equation
 _A tool for visualizing the convergence of usability and security in text-based passwords_
 
-## About this code
-This code comprises of a data visualization tool to explore password usability and security metrics. The visualization tool integrates various measurements of passwords, enabling exploration of the intersection of their usability and security components. The tool is based on insight from previously gathered data from usability studies conducted at the United States National Institute of Standards and Technology. It also leverages web technologies to flexibly display data sets computed from sets of passwords.
+_Note: if you are looking for the tool as it appeared in the HCII 2015 proceedings, you will find it here: [..DataVis/tree/HCII-2015](https://github.com/usnistgov/DataVis/tree/HCII-2015)_
+
+## Overview
+The USV (Usability and Security Visualizer) is a data visualization tool originally built to explore password usability and security metrics. The visualization tool integrates various measurements of passwords, enabling exploration of the intersection of their usability and security components. 
+
+The tool is based on insight from previously gathered data from usability studies conducted at the United States National Institute of Standards and Technology. It also leverages web technologies to flexibly display data sets computed from sets of passwords.
+
+The USV is intented to visualize multivariate data (rows of data with different properties describing qualities of each row in columns).
+
+In a generic sense, the tool provides a mechanism for visualizing the same groups of metrics for rows of data in 2 different states or phases. The rows are organized symmetrically do display the the The example given is password permutation, or rearranging the passwords so that all characters are grouped by each character type (letters, numbers, symbols). Password permutation is intended to optimize the efficiency for password entry on a mobile device.
 
 ## Disclaimer 
 
