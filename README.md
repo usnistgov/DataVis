@@ -17,7 +17,7 @@ In a generic sense, the tool provides a mechanism for visualizing the same group
 ## How to use the tool
 You can either use the tool online [here](http://usnistgov.github.io/DataVis/) or download it for offline use.
 
-In order to use the tool online, you will have to create a dataset (Step B. below). 
+In order to use the tool online, you will have to create a dataset file first using the Python files (Step B. below). 
 
 ### A. What you'll need:
 - A .txt file list of the passwords to be visualized. For example (newline separated):
