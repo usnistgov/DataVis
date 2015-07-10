@@ -3157,7 +3157,7 @@ var USV = USV || {};
 					}
 				},
 				getDomain:function ( key , visualizationKey ) {					
-					if( visualizationKey == "global" ){
+					if( visualizationKey == "global" || visualizationKey == "parcoords-overview"){
 						var min =  this.domainVal.global.min;
 						var max =  this.domainVal.global.max;
 					} else {
