@@ -318,6 +318,7 @@ var USV = USV || {};
 								$.when( thisObj.visualizations[ "parcoords-overview" ].init() , thisObj.visualizations[ "heatmap-overview" ].init() ).done(function () {
 									gui.showVisualization( dataLocation );
 								});
+
 							} else {
 								$.when( thisObj.visualizations[ "heatmap-overview" ].addData( dataLocation , "heatmap-overview" , thisObj.datasets[ dataLocation ] ), thisObj.visualizations[ "parcoords-overview" ].addData( dataLocation , "parcoords-overview" , thisObj.datasets[ dataLocation ] ) ).done(function () {
 									gui.showVisualization( dataLocation );
@@ -752,6 +753,7 @@ var USV = USV || {};
 					this.parentKey = parentKey;
 					
 					this.dataKey = dataKey;
+					console.log(dataKey);
 					this.dataset = dataset;
 					this.metricSet = metricSet;
 					if( mode == "heatmap-overview" ){
@@ -1245,11 +1247,13 @@ var USV = USV || {};
 					},
 					visualize: {
 						value: function ( ) {
+							console.log(this.visualizationKey);
 							var thisObj = this,
 								id = "#" + this.html.id, 
 								color = thisObj.colorBy();
 							$(id).html('');
 							thisObj.parcoords = null;
+
 							thisObj.parcoords = d3.parcoords({
 								data: thisObj.totalData,
 								metricSet: thisObj.metricSet,
@@ -1257,8 +1261,8 @@ var USV = USV || {};
 								visualizationKey: thisObj.visualizationKey,
 								orderedMetrics: thisObj.orderedMetricsList,
 							})(id);
-							thisObj.parcoords
-								
+							console.log(thisObj);
+							thisObj.parcoords	
 								.width(thisObj.width)
 								.detectDimensions( )
 								.dimensions( thisObj.orderedMetricsList )
@@ -1274,11 +1278,8 @@ var USV = USV || {};
 								.interactive()
 								.brushMode("1D-axes")
 								.hideAxis("datasetIndex")
-								.color()
-							;
-							for(var i = 0; i < thisObj.orderedMetricsList.length; i++){
-								// thisObj.hideMultiColumn( thisObj.orderedMetricsList[i] );
-							}
+								.color();
+
 							thisObj.parcoords.updateAxes().bundleDimension(thisObj.currentBundledDimension).render();
 						
 						},
@@ -1314,6 +1315,8 @@ var USV = USV || {};
 							});
 							thisObj.totalDataList.push( name );
 							thisObj.visibleDatasets[index] = true;
+							thisObj.orderedMetricsList = thisObj.metricSet.getOrderedMetrics( this.dataKey , thisObj.visualizationKey );
+
 							thisObj.visualize();
 							// thisObj.parcoords.autoscale().updateAxes().bundleDimension(thisObj.currentBundledDimension).render();
 						},
@@ -1391,8 +1394,7 @@ var USV = USV || {};
 							if( metricName == "datasetIndex" || !metricName){ // color categorically
 								var colors = d3.scale.category10();
 								colorFunction = function(d) { return colors(d.datasetIndex); };
-								console.log(colorFunction)
-								console.log(colorFunction(0));
+
 								if( !metricName ){
 									return colorFunction;
 								}
@@ -1427,7 +1429,6 @@ var USV = USV || {};
 						value: function ( dataIndex ) {
 							var data = [],
 								thisObj = this;
-							console.log(thisObj.visibleDatasets)
 							if( thisObj.visibleDatasets[dataIndex] ){ // make invisible
 								thisObj.visibleDatasets[dataIndex] = false;
 							} else { // make visible
@@ -1436,12 +1437,10 @@ var USV = USV || {};
 							console.log(thisObj.visibleDatasets);
 							
 							data = thisObj.totalData.filter(function (d, i){
-								console.log(thisObj.visibleDatasets[d.datasetIndex])
-								console.log(d.datasetIndex)
+
 								return thisObj.visibleDatasets[d.datasetIndex];
 							});
-							console.log(data);
-							console.log(thisObj.totalData)
+
 							thisObj.parcoords.brushUpdated( data );
 						},
 						enumerable: true,
@@ -1522,8 +1521,7 @@ var USV = USV || {};
 							var id = "#" + this.html.id,
 							height = $( "#vizualizations-holder" ).height(),
 							width = $( id ).width();
-							console.log(id)
-							console.log(width)
+
 							if(this.mode == "heatmap-overview"){
 								$(id).append('<button class="btn btn-default navbar-btn btn-sm overview-view-btn" id="' + this.dataset.getName() + '" type="submit" ><span class="glyphicon glyphicon-eye-open" aria-hidden="true" ></span></button>');
 								var buttonHeight = $(".overview-view-btn").outerHeight();
@@ -1968,7 +1966,6 @@ var USV = USV || {};
 							$( parent + " .show-hide-data-btn").click(function(){ // Show/hide dataset
 								var id = $(this).attr("id");
 								id = id.replace("-show-hide-data-btn", "");
-								console.log(id)
 								thisObj.triggerHideData( id );
 							});
 						},
@@ -2197,7 +2194,6 @@ var USV = USV || {};
 					addDataControl : {
 						value: function() {
 							var parent = "#" + this.parentKey;
-							console.log(this);
 							$(parent + ' .about-dataset-holder').html('');
 							for(var i  = 0; i < this.dataset.length; i++){
 								var data = this.dataset[i].getData();
@@ -2520,7 +2516,6 @@ var USV = USV || {};
 						    for(var i = 0; i < this.connectedTiers.length; i++){
 						    	if( this.connectedTiers[i].visualize ) {
 						    		this.connectedTiers[i].visualize();
-						    		console.log("visualize " + i);
 						    	}
 						    }
 							
@@ -2540,7 +2535,6 @@ var USV = USV || {};
 					},
 					triggerHideData: {
 						value: function ( dataIndex ) {
-							console.log("triggerHideData")
 							console.log( dataIndex )
 							for(var i = 0; i < this.connectedTiers.length; i++){
 						    	if( this.connectedTiers[i].brushData ) {
@@ -3157,7 +3151,7 @@ var USV = USV || {};
 					}
 				},
 				getDomain:function ( key , visualizationKey ) {					
-					if( visualizationKey == "global" ){
+					if( visualizationKey == "global" || visualizationKey == "parcoords-overview"){
 						var min =  this.domainVal.global.min;
 						var max =  this.domainVal.global.max;
 					} else {
@@ -3361,7 +3355,6 @@ var USV = USV || {};
 			/**  Show all visualizations */
 			var showAllOverviewVisualizations = function ( callback ) {
 				var visualizations = $('.visualization-instance');
-				console.log(visualizations);
 				if( visualizations.length > 0 ){
 					var i = 0;
 					$.when($('.visualization-instance').show()).done(function(){
