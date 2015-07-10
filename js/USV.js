@@ -2763,7 +2763,7 @@ var USV = USV || {};
 					return this.metrics[ type ].getDomain( key , visualizationKey );
 				},
 				getCount: function ( key , visualizationKey, type ) {
-					if( visualizationKey == "global" ) {
+					if( visualizationKey == "global" || visualizationKey == "parcoords-overview" ) {
 						if( this.count[ visualizationKey ] ) {
 							if( type == "visible" ){
 								return this.count[ visualizationKey ].visible;
